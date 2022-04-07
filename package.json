@@ -1,0 +1,28 @@
+{
+  "name": "petprojectapiblog",
+  "version": "1.0.0",
+  "description": "This is the Pet Project for the module 5 Stack Builders Training Plan. The project consists in an API build by Node.js, Express.js, TypeScript, PostgreSQL and Prisma.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danii2020/api-blog.sb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Danii2020/api-blog.sb/issues"
+  },
+  "homepage": "https://github.com/Danii2020/api-blog.sb#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0"
+  }
+}
