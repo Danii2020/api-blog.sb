@@ -4,11 +4,12 @@ export interface IUser {
   firstname:string,
   lastname:string,
   email:string
+  posts:IPost[]
 }
 
 export interface IPost {
   id:string,
+  userId:string,
   title:string,
-  body:string,
-  likes:number
+  content:string
 }

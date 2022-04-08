@@ -1,6 +1,9 @@
 
-import { IUser } from './models/interfaces/users';
+import { IUser } from './models/interfaces/interfaces';
+import PostsService from './postsService';
 import boom from '@hapi/boom';
+
+const service = new PostsService();
 
 class UsersService {
   private _users:IUser[];
@@ -9,7 +12,7 @@ class UsersService {
     this.generate();
   }
 
-  generate() {
+  async generate() {
     const limit:number = 10;
     for (let i=0; i<limit; i++) {
       this._users.push({
@@ -17,17 +20,14 @@ class UsersService {
         username:"danii2020",
         firstname:"Daniel",
         lastname:"Erazo",
-        email:"danii2020@gmail.com"
+        email:"danii2020@gmail.com",
+        posts: await service.find()
       })
     }
   }
 
-  find():Promise<IUser[]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(this._users);
-      }, 3000);
-    });
+  async find():Promise<IUser[]> {
+    return this._users;
   }
 
   async findOne(id:string):Promise<IUser> {
@@ -39,13 +39,14 @@ class UsersService {
   }
 
   async create(data:IUser):Promise<IUser> {
-    const {username="", firstname="", lastname="", email=""} = data;
+    const {username="", firstname="", lastname="", email="", posts=[]} = data;
     const user:IUser =  {
       id:String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
       username,
       firstname,
       lastname,
-      email
+      email,
+      posts
     }
     this._users.push(user);
     return user;
