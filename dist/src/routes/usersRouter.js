@@ -30,11 +30,25 @@ const validatorHandler_1 = __importDefault(require("../middlewares/validatorHand
 const express_1 = __importStar(require("express"));
 const usersService_1 = __importDefault(require("./../services/usersService"));
 const usersSchema_1 = require("../services/models/schemas/usersSchema");
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 const usersRouter = express_1.default.Router();
 const service = new usersService_1.default();
 usersRouter.get('/', async (req, res) => {
-    const users = await service.find();
-    res.status(200).json(users);
+    try {
+        const user = await prisma.user.findMany({
+            include: {
+                profile: true
+            }
+        });
+        res.status(200).json({
+            data: user
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 });
 usersRouter.get('/:id', (0, validatorHandler_1.default)(usersSchema_1.getUserSchema, 'params'), async (req, res, next) => {
     try {
@@ -46,13 +60,23 @@ usersRouter.get('/:id', (0, validatorHandler_1.default)(usersSchema_1.getUserSch
         next(error);
     }
 });
-usersRouter.post('/', (0, validatorHandler_1.default)(usersSchema_1.createUserSchema, 'body'), async (req, res) => {
-    const body = req.body;
-    const user = await service.create(body);
-    res.status(201).json({
-        message: "created",
-        data: user
-    });
+usersRouter.post('/', async (req, res) => {
+    try {
+        const result = await prisma.user.create({
+            data: {
+                name: req.body.name,
+                email: req.body.email
+            }
+        });
+        res.status(200).json({
+            message: "created",
+            data: result
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
 });
 usersRouter.patch('/:id', (0, validatorHandler_1.default)(usersSchema_1.getUserSchema, 'params'), (0, validatorHandler_1.default)(usersSchema_1.updateUserSchema, 'body'), async (req, res, next) => {
     try {

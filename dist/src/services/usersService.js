@@ -5,28 +5,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const postsService_1 = __importDefault(require("./postsService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
 const service = new postsService_1.default();
 class UsersService {
     constructor() {
         this._users = [];
-        this.generate();
+        //this.generate();
     }
-    async generate() {
-        const limit = 10;
-        for (let i = 0; i < limit; i++) {
-            this._users.push({
-                id: String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
-                username: "danii2020",
-                firstname: "Daniel",
-                lastname: "Erazo",
-                email: "danii2020@gmail.com",
-                posts: await service.find()
-            });
-        }
-    }
-    async find() {
-        return this._users;
-    }
+    // async generate() {
+    //   const limit:number = 10;
+    //   for (let i=0; i<limit; i++) {
+    //     this._users.push({
+    //       id:String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
+    //       username:"danii2020",
+    //       firstname:"Daniel",
+    //       lastname:"Erazo",
+    //       email:"danii2020@gmail.com",
+    //       posts: await service.find()
+    //     })
+    //   }
+    // }
+    // async find():Promise<IUser[]> {
+    //   const user = await prisma.user.findMany({
+    //     include: {
+    //       profile: true
+    //     }
+    //   });
+    //   return
+    // }
     async findOne(id) {
         const user = this._users.find(item => item.id === id);
         if (!user) {

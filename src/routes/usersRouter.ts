@@ -3,13 +3,26 @@ import express, { response } from "express";
 import UsersService from './../services/usersService';
 import { createUserSchema, updateUserSchema, getUserSchema } from "../services/models/schemas/usersSchema";
 import { IUser } from "../services/models/interfaces/interfaces";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 const usersRouter = express.Router()
 
 const service = new UsersService()
 
-usersRouter.get('/', async (req, res) => {
-  const users:IUser[] = await service.find();
-  res.status(200).json(users);
+usersRouter.get('/', async (req, res, ) => {
+  try {
+    const user = await prisma.user.findMany({
+      include: {
+        profile: true
+      }
+    });
+    res.status(200).json({
+      data:user
+    })
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
 });
 
 usersRouter.get('/:id',
@@ -24,15 +37,23 @@ usersRouter.get('/:id',
   }
 });
 
-usersRouter.post('/',
-  validatorHandler(createUserSchema, 'body'),
-  async (req, res) => {
-  const body:IUser = req.body;
-  const user:IUser = await service.create(body);
-  res.status(201).json({
-    message:"created",
-    data:user
-  });
+usersRouter.post('/', async (req, res) => {
+  try {
+    const result = await prisma.user.create({
+      data: {
+        name:req.body.name,
+        email:req.body.email
+      }
+    });
+    res.status(200).json({
+      message:"created",
+      data:result
+    });
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+
 });
 
 usersRouter.patch('/:id',
