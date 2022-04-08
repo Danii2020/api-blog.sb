@@ -1,8 +1,8 @@
 import validatorHandler from "../middlewares/validatorHandler";
 import express, { response } from "express";
 import UsersService from './../services/usersService';
-import { createUserSchema, updateUserSchema, getUserSchema } from "../services/models/interfaces/schemas/usersSchema";
-import { IUser } from "../services/models/interfaces/users";
+import { createUserSchema, updateUserSchema, getUserSchema } from "../services/models/schemas/usersSchema";
+import { IUser } from "../services/models/interfaces/interfaces";
 const usersRouter = express.Router()
 
 const service = new UsersService()

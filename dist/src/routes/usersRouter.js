@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const validatorHandler_1 = __importDefault(require("../middlewares/validatorHandler"));
 const express_1 = __importStar(require("express"));
 const usersService_1 = __importDefault(require("./../services/usersService"));
-const usersSchema_1 = require("../services/models/interfaces/schemas/usersSchema");
+const usersSchema_1 = require("../services/models/schemas/usersSchema");
 const usersRouter = express_1.default.Router();
 const service = new usersService_1.default();
 usersRouter.get('/', async (req, res) => {
