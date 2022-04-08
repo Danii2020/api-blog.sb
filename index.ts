@@ -1,4 +1,6 @@
 const express = require('express');
+import { logErrors, errorHandler, boomErrorHandler } from './src/middlewares/errorHandler';
+
 import { Request, Response } from "express";
 import { routerApi } from "./src/routes";
 
@@ -12,6 +14,11 @@ app.get('/', (req:Request, res:Response) => {
 });
 
 routerApi(app);
+
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
+
 app.listen(port, () => {
   console.log('Listening in ' + port);
 })

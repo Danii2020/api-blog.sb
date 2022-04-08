@@ -1,10 +1,9 @@
 export interface IUser {
-  id:number,
+  id:string,
   username:string,
   firstname:string,
   lastname:string,
   email:string
-  posts:IPost[]
 }
 
 export interface IPost {

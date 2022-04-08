@@ -2,7 +2,7 @@
 import { IUser } from './models/interfaces/users';
 import boom from '@hapi/boom';
 
-export class UsersService {
+class UsersService {
   private _users:IUser[];
   constructor() {
     this._users = [];
@@ -13,7 +13,7 @@ export class UsersService {
     const limit:number = 10;
     for (let i=0; i<limit; i++) {
       this._users.push({
-        id:Math.floor(Math.random() * (10 - 1 + 1) + 1),
+        id:String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
         username:"danii2020",
         firstname:"Daniel",
         lastname:"Erazo",
@@ -30,7 +30,7 @@ export class UsersService {
     });
   }
 
-  async findOne(id:number):Promise<IUser> {
+  async findOne(id:string):Promise<IUser> {
     const user = this._users.find(item => item.id === id);
     if (!user) {
       throw boom.notFound('User not found');
@@ -41,7 +41,7 @@ export class UsersService {
   async create(data:IUser):Promise<IUser> {
     const {username="", firstname="", lastname="", email=""} = data;
     const user:IUser =  {
-      id:Math.floor(Math.random() * (10 - 1 + 1) + 1),
+      id:String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
       username,
       firstname,
       lastname,
@@ -51,7 +51,7 @@ export class UsersService {
     return user;
   }
 
-  async update(id:number, changes:IUser):Promise<IUser> {
+  async update(id:string, changes:IUser):Promise<IUser> {
     const index:number = this._users.findIndex(item => item.id === id);
     if (index == -1) {
       throw boom.notFound('User not found');
@@ -64,7 +64,7 @@ export class UsersService {
     return this._users[index];
   }
 
-  async delete(id:number):Promise<string> {
+  async delete(id:string):Promise<string> {
     const index = this._users.findIndex(item => item.id === id);
     if (index === -1) {
       throw boom.notFound('User not found');
@@ -74,3 +74,5 @@ export class UsersService {
   }
 
 }
+
+export default UsersService;
