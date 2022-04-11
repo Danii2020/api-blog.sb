@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 const prisma = new PrismaClient();
 
 class PostsController {
-  public static async getAllPosts(req:Request, res:Response) {
+  public static async getAllPosts(req:Request, res:Response):Promise<any> {
     try {
       const post = await prisma.post.findMany({
         include: {
@@ -20,7 +20,7 @@ class PostsController {
     }
   }
 
-  public static async getOnePost(req:Request, res:Response) {
+  public static async getOnePost(req:Request, res:Response):Promise<any> {
     try {
       const post = await prisma.post.findUnique({
         where: {
@@ -42,7 +42,7 @@ class PostsController {
     }
   }
 
-  public static async postPost(req:Request, res:Response) {
+  public static async postPost(req:Request, res:Response):Promise<any> {
     try {
       const newPost = await prisma.post.create({
         data: {
@@ -63,7 +63,7 @@ class PostsController {
     }
   }
 
-  public static async patchPost(req:Request, res:Response) {
+  public static async patchPost(req:Request, res:Response):Promise<any> {
     try {
       const updatedPost = await prisma.post.update({
         where : {
@@ -87,7 +87,7 @@ class PostsController {
     }
   }
 
-  public static async deletePost(req:Request, res:Response) {
+  public static async deletePost(req:Request, res:Response):Promise<any> {
     try {
       const post = await prisma.post.delete({
         where: {
@@ -107,7 +107,5 @@ class PostsController {
     }
   }
 }
-
-
 
 export default PostsController;

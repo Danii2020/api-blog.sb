@@ -1,14 +1,10 @@
-
-// import validatorHandler from '../middlewares/validatorHandler';
-// import { createUserSchema, updateUserSchema, getUserSchema } from "../models/schemas/usersSchema";
-// import boom from '@hapi/boom';
 import { PrismaClient } from '@prisma/client';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
 class UsersController {
-  public static async getAllUsers(req:Request, res:Response) {
+  public static async getAllUsers(req:Request, res:Response):Promise<any> {
     try {
       const user = await prisma.user.findMany({
         include: {
@@ -24,7 +20,7 @@ class UsersController {
     }
   }
 
-  public static async getOneUser(req:Request, res:Response) {
+  public static async getOneUser(req:Request, res:Response):Promise<any> {
     try {
       const user = await prisma.user.findUnique({
         where: {
@@ -46,7 +42,7 @@ class UsersController {
     }
   }
 
-  public static async postUser(req:Request, res:Response) {
+  public static async postUser(req:Request, res:Response):Promise<any> {
     try {
       const newUser = await prisma.user.create({
         data: {
@@ -66,7 +62,7 @@ class UsersController {
     }
   }
 
-  public static async patchUser(req:Request, res:Response) {
+  public static async patchUser(req:Request, res:Response):Promise<any> {
     try {
       const updatedUser = await prisma.user.update({
         where : {
@@ -88,7 +84,7 @@ class UsersController {
     }
   }
 
-  public static async deleteUser(req:Request, res:Response) {
+  public static async deleteUser(req:Request, res:Response):Promise<any> {
     try {
       const user = await prisma.user.delete({
         where: {

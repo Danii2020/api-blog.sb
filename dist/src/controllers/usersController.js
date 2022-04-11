@@ -1,8 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import validatorHandler from '../middlewares/validatorHandler';
-// import { createUserSchema, updateUserSchema, getUserSchema } from "../models/schemas/usersSchema";
-// import boom from '@hapi/boom';
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 class UsersController {
