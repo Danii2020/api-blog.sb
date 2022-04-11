@@ -1,65 +1,110 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const boom_1 = __importDefault(require("@hapi/boom"));
-class PostsService {
-    constructor() {
-        this._posts = [];
-        this.generate();
-    }
-    generate() {
-        const limit = 10;
-        for (let i = 0; i < limit; i++) {
-            this._posts.push({
-                id: String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
-                userId: String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
-                title: "Post Example",
-                content: "This is an example"
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
+class PostsController {
+    static async getAllPosts(req, res) {
+        try {
+            const post = await prisma.post.findMany({
+                include: {
+                    user: true
+                }
+            });
+            return res.status(200).json({
+                data: post
             });
         }
-    }
-    async find() {
-        return this._posts;
-    }
-    async findOne(id) {
-        const post = this._posts.find(item => item.id === id);
-        if (!post) {
-            throw boom_1.default.notFound('Post not found');
+        catch (error) {
+            console.log(error);
+            return res.sendStatus(500);
         }
-        return post;
     }
-    async create(data) {
-        const { id = "", userId = "", title = "", content = "" } = data;
-        const post = {
-            id: String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
-            userId: String(Math.floor(Math.random() * (10 - 1 + 1) + 1)),
-            title,
-            content
-        };
-        this._posts.push(post);
-        return post;
-    }
-    async update(id, changes) {
-        const index = this._posts.findIndex(item => item.id === id);
-        if (index == -1) {
-            throw boom_1.default.notFound('Post not found');
+    static async getOnePost(req, res) {
+        try {
+            const post = await prisma.post.findUnique({
+                where: {
+                    postId: Number(req.params.id)
+                },
+                include: {
+                    user: true
+                }
+            });
+            if (post === null) {
+                res.sendStatus(404);
+            }
+            return res.status(200).json({
+                data: post
+            });
         }
-        const post = this._posts[index];
-        this._posts[index] = {
-            ...post,
-            ...changes
-        };
-        return this._posts[index];
-    }
-    async delete(id) {
-        const index = this._posts.findIndex(item => item.id === id);
-        if (index === -1) {
-            throw boom_1.default.notFound('Post not found');
+        catch (error) {
+            console.log(error);
+            return res.sendStatus(500);
         }
-        this._posts.splice(index, 1);
-        return "Post with id: " + id + " deleted";
+    }
+    static async postPost(req, res) {
+        try {
+            const newPost = await prisma.post.create({
+                data: {
+                    title: req.body.title,
+                    content: req.body.content,
+                    user: {
+                        connect: { userId: req.body.user.userId }
+                    }
+                }
+            });
+            return res.status(200).json({
+                message: "Post created",
+                data: newPost
+            });
+        }
+        catch (error) {
+            console.log(error);
+            res.sendStatus(500);
+        }
+    }
+    static async patchPost(req, res) {
+        try {
+            const updatedPost = await prisma.post.update({
+                where: {
+                    postId: Number(req.params.id)
+                },
+                data: {
+                    title: req.body.title,
+                    content: req.body.content
+                }
+            });
+            if (updatedPost === null) {
+                res.sendStatus(404);
+            }
+            return res.status(201).json({
+                message: "Post updated",
+                data: updatedPost
+            });
+        }
+        catch (error) {
+            console.log(error);
+            return res.sendStatus(500);
+        }
+    }
+    static async deletePost(req, res) {
+        try {
+            const post = await prisma.post.delete({
+                where: {
+                    postId: Number(req.params.id)
+                }
+            });
+            if (post === null) {
+                res.sendStatus(404);
+            }
+            return res.status(200).json({
+                message: "Post deleted",
+                data: post
+            });
+        }
+        catch (error) {
+            console.log(error);
+            return res.sendStatus(500);
+        }
     }
 }
-exports.default = PostsService;
+exports.default = PostsController;

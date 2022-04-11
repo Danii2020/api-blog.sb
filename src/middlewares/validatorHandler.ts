@@ -1,3 +1,5 @@
+// This file is just for demostration, it does not have functionality
+
 import boom from '@hapi/boom';
 import { NextFunction, Request, Response } from 'express';
 import { Schema, string } from 'joi';

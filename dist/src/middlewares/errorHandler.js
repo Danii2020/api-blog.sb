@@ -1,4 +1,5 @@
 "use strict";
+// This file is just for demostration, it does not have functionality
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.boomErrorHandler = exports.errorHandler = exports.logErrors = void 0;
 const logErrors = (err, req, res, next) => {

@@ -1,4 +1,5 @@
 "use strict";
+// This file is just for demostration, it does not have functionality
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
