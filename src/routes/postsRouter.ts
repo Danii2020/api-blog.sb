@@ -1,8 +1,8 @@
 import validatorHandler from "../middlewares/validatorHandler";
 import express, { response } from "express";
-import PostsService from './../services/postsService';
-import { createPostSchema, updatePostSchema, getPostSchema } from "../services/models/schemas/postsSchemas";
-import { IPost } from "../services/models/interfaces/interfaces";
+import PostsService from '../controllers/postsServic';
+import { createPostSchema, updatePostSchema, getPostSchema } from "../models/schemas/postsSchemas";
+import { IPost } from "../models/interfaces/interfaces";
 const postsRouter = express.Router()
 
 const service = new PostsService()

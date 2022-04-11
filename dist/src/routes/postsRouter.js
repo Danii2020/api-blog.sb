@@ -28,10 +28,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const validatorHandler_1 = __importDefault(require("../middlewares/validatorHandler"));
 const express_1 = __importStar(require("express"));
-const postsService_1 = __importDefault(require("./../services/postsService"));
-const postsSchemas_1 = require("../services/models/schemas/postsSchemas");
+const postsServic_1 = __importDefault(require("../controllers/postsServic"));
+const postsSchemas_1 = require("../models/schemas/postsSchemas");
 const postsRouter = express_1.default.Router();
-const service = new postsService_1.default();
+const service = new postsServic_1.default();
 postsRouter.get('/', async (req, res) => {
     const posts = await service.find();
     res.status(200).json(posts);
