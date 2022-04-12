@@ -8,7 +8,7 @@ import { config } from '../../config/config';
 
 const prisma = new PrismaClient();
 const jwtConfig = {
-  expiresIn:'5d';
+  expiresIn:'5d'
 }
 
 class AuthController {

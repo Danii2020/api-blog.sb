@@ -54,7 +54,7 @@ class UsersController {
           username:req.body.username,
           email:req.body.email,
           password:hash,
-          role:'user',
+          role:req.body.role || 'user',
           posts:req.body.post
         }
       });
