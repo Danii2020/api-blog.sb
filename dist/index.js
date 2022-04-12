@@ -8,6 +8,7 @@ const config_1 = require("./config/config");
 const app = express();
 const port = config_1.config.port;
 app.use(express.json());
+require('./utils/auth');
 app.get('/', authHandler_1.checkApiKey, (req, res) => {
     res.send("Hello, this is my server in Express");
 });
