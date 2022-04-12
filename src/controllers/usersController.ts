@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -44,14 +45,17 @@ class UsersController {
 
   public static async postUser(req:Request, res:Response):Promise<any> {
     try {
+      const hash = await bcrypt.hash(req.body.password, 10);
       const newUser = await prisma.user.create({
         data: {
           name:req.body.name,
           username:req.body.username,
           email:req.body.email,
+          password:hash,
           posts:req.body.post
         }
       });
+      delete newUser.password;
       return res.status(200).json({
         message:"User created",
         data:newUser
@@ -71,9 +75,11 @@ class UsersController {
         data : {
           name:req.body.name,
           username:req.body.username,
-          email:req.body.email
+          email:req.body.email,
+          password:req.body.password
         }
       });
+      delete updatedUser.password;
       return res.status(201).json({
         message:"User updated",
         data:updatedUser
