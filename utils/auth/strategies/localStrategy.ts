@@ -1,7 +1,5 @@
 import { Strategy } from "passport-local";
-import UserService from "../../../src/services/usersService";
-import { compareHash } from "../hash/hash";
-import boom from '@hapi/boom';
+import AuthService from "../../../src/services/authService";
 import { VerifiedCallback } from "passport-jwt";
 
 const LocalStrategy = new Strategy({
@@ -10,15 +8,7 @@ const LocalStrategy = new Strategy({
 },
   async (email:string, password:string, done:VerifiedCallback) =>{
   try {
-    const user = await UserService.findByEmail(email);
-    if (!user) {
-      done(boom.unauthorized(), false);
-    }
-    const isMatch:boolean = await compareHash(user?.password, password);
-    if (!isMatch) {
-      done(boom.unauthorized(), false);
-    }
-    delete user?.password;
+    const user = await AuthService.getUser(email, password);
     done(null, user);
   } catch (error) {
     done(error, false);

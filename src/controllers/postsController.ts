@@ -1,13 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-import { IPost } from '../models/interfaces';
+import { IPost, IUser } from '../models/interfaces';
+import boom from '@hapi/boom';
 
 const prisma = new PrismaClient();
 
 class PostsController {
   public static async getAllPosts(req:Request, res:Response):Promise<any> {
     try {
-      const post = await prisma.post.findMany({
+      const post =  await prisma.post.findMany({
         include: {
           user: {
             select:{username:true}
@@ -25,13 +26,15 @@ class PostsController {
 
   public static async getOnePost(req:Request, res:Response):Promise<any> {
     try {
-      const post = await prisma.post.findUnique({
+      const post = <IPost> await prisma.post.findUnique({
         where: {
           postId:Number(req.params.id)
         },
         include: {
-          user:true
+          user: {
+          select:{username:true}
         }
+      }
       });
       if (post === null) {
         res.sendStatus(404);
@@ -47,12 +50,23 @@ class PostsController {
 
   public static async postPost(req:Request, res:Response):Promise<any> {
     try {
-      const newPost = await prisma.post.create({
+      const user = <IUser> await prisma.user.findUnique({
+        where: {
+          userId:req.user.sub
+        }
+      });
+      if (!user) {
+        boom.notFound("User not found");
+      }
+      console.log("------------------");
+      console.log(user);
+      console.log("------------------");
+      const newPost = <IPost> await prisma.post.create({
         data: {
           title:req.body.title,
           content:req.body.content,
           user: {
-            connect: {userId: req.body.user.userId}
+            connect: {userId: user.userId}
           }
         }
       });
@@ -68,7 +82,7 @@ class PostsController {
 
   public static async patchPost(req:Request, res:Response):Promise<any> {
     try {
-      const updatedPost = await prisma.post.update({
+      const updatedPost = <IPost> await prisma.post.update({
         where : {
           postId: Number(req.params.id)
         },
@@ -92,7 +106,7 @@ class PostsController {
 
   public static async deletePost(req:Request, res:Response):Promise<any> {
     try {
-      const post = await prisma.post.delete({
+      const post = <IPost> await prisma.post.delete({
         where: {
           postId: Number(req.params.id)
         }

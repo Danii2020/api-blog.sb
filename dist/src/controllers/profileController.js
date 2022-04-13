@@ -1,47 +1,26 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// import validatorHandler from '../middlewares/validatorHandler';
-// import { createUserSchema, updateUserSchema, getUserSchema } from "../models/schemas/usersSchema";
-// import boom from '@hapi/boom';
 const client_1 = require("@prisma/client");
+const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
 class ProfileController {
-    static async getAllProfiles(req, res) {
+    static async getProfile(req, res) {
         try {
-            const profile = await prisma.profile.findMany({
-                include: {
-                    user: true
-                }
-            });
-            return res.status(200).json({
-                data: profile
-            });
-        }
-        catch (error) {
-            console.log(error);
-            return res.sendStatus(500);
-        }
-    }
-    static async getOneProfile(req, res) {
-        try {
-            const profile = await prisma.profile.findUnique({
+            const user = req.user;
+            const posts = await prisma.post.findMany({
                 where: {
-                    profileId: Number(req.params.id)
-                },
-                include: {
-                    user: true
+                    user: {
+                        userId: user.sub
+                    }
                 }
             });
-            if (profile === null) {
-                res.sendStatus(404);
-            }
-            return res.status(200).json({
-                data: profile
-            });
+            return res.status(200).json(posts);
         }
         catch (error) {
-            console.log(error);
-            return res.sendStatus(500);
+            boom_1.default.internal("Server error");
         }
     }
 }

@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
 class PostsController {
     static async getAllPosts(req, res) {
@@ -28,7 +32,9 @@ class PostsController {
                     postId: Number(req.params.id)
                 },
                 include: {
-                    user: true
+                    user: {
+                        select: { username: true }
+                    }
                 }
             });
             if (post === null) {
@@ -45,12 +51,23 @@ class PostsController {
     }
     static async postPost(req, res) {
         try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    userId: req.user.sub
+                }
+            });
+            if (!user) {
+                boom_1.default.notFound("User not found");
+            }
+            console.log("------------------");
+            console.log(user);
+            console.log("------------------");
             const newPost = await prisma.post.create({
                 data: {
                     title: req.body.title,
                     content: req.body.content,
                     user: {
-                        connect: { userId: req.body.user.userId }
+                        connect: { userId: user.userId }
                     }
                 }
             });

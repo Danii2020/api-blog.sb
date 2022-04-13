@@ -14,7 +14,7 @@ const checkApiKey = (req:Request, res:Response, next:NextFunction) => {
 
 const checkRoles = (...roles:Array<string>) => {
   return (req:Request, res:Response, next:NextFunction) => {
-    const user:IUser = req.user;
+    const user = <IUser> req.user;
     (roles.includes(user.role))
     ? next()
     : next(boom.forbidden("You don't have permission to access to this resource"));

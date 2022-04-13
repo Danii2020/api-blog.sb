@@ -25,7 +25,7 @@ class UsersController {
 
   public static async getOneUser(req:Request, res:Response):Promise<any> {
     try {
-      const user = await prisma.user.findUnique({
+      const user = <IUser> await prisma.user.findUnique({
         where: {
           userId:Number(req.params.id)
         },
@@ -49,7 +49,7 @@ class UsersController {
     try {
       const hash = await argon2.hash(req.body.password, {type: argon2.argon2id});
       console.log(hash);
-      const newUser:User = await prisma.user.create({
+      const newUser = <IUser> await prisma.user.create({
         data: {
           name:req.body.name,
           username:req.body.username,
@@ -72,7 +72,7 @@ class UsersController {
 
   public static async patchUser(req:Request, res:Response):Promise<any> {
     try {
-      const updatedUser:User = await prisma.user.update({
+      const updatedUser  = <IUser> await prisma.user.update({
         where : {
           userId: Number(req.params.id)
         },
@@ -99,7 +99,7 @@ class UsersController {
 
   public static async deleteUser(req:Request, res:Response):Promise<any> {
     try {
-      const user:User = await prisma.user.delete({
+      const user = <IUser> await prisma.user.delete({
         where: {
           userId: Number(req.params.id)
         }
