@@ -4,7 +4,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const authService_1 = __importDefault(require("../services/authService"));
+const client_1 = require("@prisma/client");
+const boom_1 = __importDefault(require("@hapi/boom"));
+const argon2_1 = __importDefault(require("argon2"));
+const prisma = new client_1.PrismaClient();
 class AuthController {
+    static async signUp(req, res, next) {
+        try {
+            const hash = await argon2_1.default.hash(req.body.password, { type: argon2_1.default.argon2id });
+            console.log(hash);
+            const newUser = await prisma.user.create({
+                data: {
+                    name: req.body.name,
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hash,
+                    role: req.body.role || 'user',
+                    posts: req.body.post
+                }
+            });
+            delete newUser.password;
+            return res.status(200).json({
+                message: "User created",
+                data: newUser
+            });
+        }
+        catch (error) {
+            console.log(error);
+            boom_1.default.internal("Server error");
+        }
+    }
     static async login(req, res, next) {
         try {
             const user = req.user;

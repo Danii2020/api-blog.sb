@@ -53,15 +53,12 @@ class PostsController {
         try {
             const user = await prisma.user.findUnique({
                 where: {
-                    userId: req.user.sub
+                    userId: req?.user?.sub
                 }
             });
             if (!user) {
                 boom_1.default.notFound("User not found");
             }
-            console.log("------------------");
-            console.log(user);
-            console.log("------------------");
             const newPost = await prisma.post.create({
                 data: {
                     title: req.body.title,

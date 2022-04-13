@@ -12,7 +12,7 @@ class ProfileController {
       const posts = await prisma.post.findMany({
         where: {
           user: {
-            userId:user.sub
+            userId:user?.sub
           }
         }
       });

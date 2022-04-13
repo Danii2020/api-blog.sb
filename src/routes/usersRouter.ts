@@ -14,8 +14,6 @@ checkRoles("admin"), UsersController.getAllUsers);
 usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.getOneUser);
 
-usersRouter.post('/', UsersController.postUser);
-
 usersRouter.patch('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.patchUser);
 

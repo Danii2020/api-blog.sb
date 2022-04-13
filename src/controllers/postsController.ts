@@ -32,7 +32,7 @@ class PostsController {
         },
         include: {
           user: {
-          select:{username:true}
+            select: {username:true}
         }
       }
       });
@@ -52,15 +52,12 @@ class PostsController {
     try {
       const user = <IUser> await prisma.user.findUnique({
         where: {
-          userId:req.user.sub
+          userId:req?.user?.sub
         }
       });
       if (!user) {
         boom.notFound("User not found");
       }
-      console.log("------------------");
-      console.log(user);
-      console.log("------------------");
       const newPost = <IPost> await prisma.post.create({
         data: {
           title:req.body.title,
@@ -84,7 +81,7 @@ class PostsController {
     try {
       const updatedPost = <IPost> await prisma.post.update({
         where : {
-          postId: Number(req.params.id)
+          postId:Number(req.params.id)
         },
         data : {
           title:req.body.title,

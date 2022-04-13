@@ -14,11 +14,11 @@ class AuthService {
   public static async getUser(email:string, password:string) {
     const user = <IUser> await UserService.findByEmail(email);
     if (!user) {
-      throw boom.unauthorized();
+      throw boom.unauthorized("You don't have access to this resource");
     }
     const isMatch:boolean = await compareHash(user?.password, password);
     if (!isMatch) {
-      throw boom.unauthorized();
+      throw boom.unauthorized("You don't have access to this resource");
     }
     delete user?.password;
     return user;
@@ -29,7 +29,7 @@ class AuthService {
         sub: user.userId,
         role: user.role
       }
-      const token = jwt.sign(payload, config.jwtSecret, jwtConfig);
+      const token = jwt.sign(payload, String(config.jwtSecret), jwtConfig);
       return {
         user,
         token

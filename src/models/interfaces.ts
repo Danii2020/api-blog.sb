@@ -3,7 +3,7 @@ interface IUser {
   name:string,
   username:string,
   email:string,
-  password:string,
+  password?:string,
   role:string,
   posts:IPost[] | null
 }
