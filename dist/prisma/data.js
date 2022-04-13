@@ -5,17 +5,23 @@ const users = [
     {
         name: "Manuel Herrera",
         username: "manu21",
-        email: "manuel@gmail.com"
+        email: "manuel@gmail.com",
+        password: "manu123",
+        role: "user"
     },
     {
-        name: "Pablo",
+        name: "Pablo Chicaiza",
         username: "pablo14",
-        email: "pablo@gmail.com"
+        email: "pablo14@gmail.com",
+        password: "paboc123",
+        role: "user"
     },
     {
-        name: "Santiago",
+        name: "Santiago Hidalgo",
         username: "santiago13",
-        email: "santiago@gmail.com"
+        email: "santiago@gmail.com",
+        password: "santi123",
+        role: "user"
     }
 ];
 exports.users = users;
@@ -23,17 +29,17 @@ const posts = [
     {
         title: "Manuel's post",
         content: "This is my first post",
-        authorId: 3
+        authorId: 1
     },
     {
         title: "Pablos's post",
         content: "This is my first post",
-        authorId: 4
+        authorId: 2
     },
     {
         title: "Santiago's post",
         content: "This is my first post",
-        authorId: 5
+        authorId: 3
     }
 ];
 exports.posts = posts;

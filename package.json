@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "This is the Pet Project for the module 5 Stack Builders Training Plan. The project consists in an API build by Node.js, Express.js, TypeScript, PostgreSQL and Prisma.",
   "main": "index.js",
-  "prisma": {
-    "seed": "npx ts-node prisma/seed.ts"
-  },
   "scripts": {
     "dev": "nodemon dist/src/server.js"
   },

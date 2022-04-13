@@ -22,7 +22,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            return res.sendStatus(500);
+            boom_1.default.internal("Internal server error");
         }
     }
     static async getOnePost(req, res) {
@@ -38,7 +38,7 @@ class PostsController {
                 }
             });
             if (!post) {
-                res.sendStatus(404);
+                boom_1.default.notFound("Post not found");
             }
             return res.status(200).json({
                 data: post
@@ -46,7 +46,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            return res.sendStatus(500);
+            boom_1.default.internal("Internal server error");
         }
     }
     static async postPost(req, res) {
@@ -75,7 +75,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            res.sendStatus(500);
+            boom_1.default.internal("Internal server error");
         }
     }
     static async patchPost(req, res) {
@@ -90,7 +90,7 @@ class PostsController {
                 }
             });
             if (!updatedPost) {
-                res.sendStatus(404);
+                boom_1.default.notFound("Post not found");
             }
             return res.status(201).json({
                 message: "Post updated",
@@ -99,7 +99,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            return res.sendStatus(500);
+            boom_1.default.internal("Internal server error");
         }
     }
     static async deletePost(req, res) {
@@ -110,7 +110,7 @@ class PostsController {
                 }
             });
             if (!post) {
-                res.sendStatus(404);
+                boom_1.default.notFound("Post not found");
             }
             return res.status(200).json({
                 message: "Post deleted",
@@ -119,7 +119,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            return res.sendStatus(500);
+            boom_1.default.internal("Internal server error");
         }
     }
 }

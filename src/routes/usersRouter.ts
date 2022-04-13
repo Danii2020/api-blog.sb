@@ -10,6 +10,8 @@ const usersRouter = express.Router()
 
 usersRouter.get('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.getAllUsers);
+usersRouter.get('/sortbyalpha', passport.authenticate('jwt', {session: false}),
+checkRoles("admin"), UsersController.getSortedUsers);
 
 usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.getOneUser);

@@ -12,10 +12,10 @@ class AuthController {
     static async signUp(req, res, next) {
         try {
             const hash = await argon2_1.default.hash(req.body.password, { type: argon2_1.default.argon2id });
-            console.log(hash);
             const newUser = await prisma.user.create({
                 data: {
                     name: req.body.name,
+                    lastname: req.body.lastname,
                     username: req.body.username,
                     email: req.body.email,
                     password: hash,

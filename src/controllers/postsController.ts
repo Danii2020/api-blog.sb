@@ -20,7 +20,7 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      return res.sendStatus(500);
+      boom.internal("Internal server error");
     }
   }
 
@@ -37,14 +37,14 @@ class PostsController {
       }
       });
       if (!post) {
-        res.sendStatus(404);
+        boom.notFound("Post not found");
       }
       return res.status(200).json({
         data:post
       });
     } catch (error) {
       console.log(error);
-      return res.sendStatus(500);
+      boom.internal("Internal server error");
     }
   }
 
@@ -73,7 +73,7 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      res.sendStatus(500);
+      boom.internal("Internal server error");
     }
   }
 
@@ -89,7 +89,7 @@ class PostsController {
         }
       });
       if (!updatedPost) {
-        res.sendStatus(404);
+        boom.notFound("Post not found");
       }
       return res.status(201).json({
         message:"Post updated",
@@ -97,7 +97,7 @@ class PostsController {
       })
     } catch (error) {
       console.log(error);
-      return res.sendStatus(500);
+      boom.internal("Internal server error");
     }
   }
 
@@ -109,7 +109,7 @@ class PostsController {
         }
       });
       if (!post) {
-        res.sendStatus(404);
+        boom.notFound("Post not found");
       }
       return res.status(200).json({
         message:"Post deleted",
@@ -117,7 +117,7 @@ class PostsController {
       })
     } catch (error) {
       console.log(error);
-      return res.sendStatus(500);
+      boom.internal("Internal server error");
     }
   }
 }

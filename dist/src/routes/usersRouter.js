@@ -11,6 +11,7 @@ const passport_1 = __importDefault(require("passport"));
 const prisma = new client_1.PrismaClient();
 const usersRouter = express_1.default.Router();
 usersRouter.get('/', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.getAllUsers);
+usersRouter.get('/sortbyalpha', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.getSortedUsers);
 usersRouter.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.getOneUser);
 usersRouter.patch('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.patchUser);
 usersRouter.delete('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.deleteUser);
