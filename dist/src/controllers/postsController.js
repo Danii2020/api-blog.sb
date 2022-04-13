@@ -7,7 +7,9 @@ class PostsController {
         try {
             const post = await prisma.post.findMany({
                 include: {
-                    user: true
+                    user: {
+                        select: { username: true }
+                    }
                 }
             });
             return res.status(200).json({

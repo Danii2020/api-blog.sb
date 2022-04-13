@@ -1,4 +1,4 @@
-import { Strategy, ExtractJwt } from "passport-jwt";
+import { Strategy, ExtractJwt, VerifiedCallback } from "passport-jwt";
 import UserService from "../../../src/services/usersService";
 import { compareHash } from "../hash/hash";
 import boom from '@hapi/boom';
@@ -9,7 +9,7 @@ const options = {
   secretOrKey: config.jwtSecret
 }
 
-const JwtStrategy = new Strategy(options, (payload:object, done) => {
+const JwtStrategy = new Strategy(options, (payload:object, done:VerifiedCallback) => {
   return done(null, payload);
 });
 

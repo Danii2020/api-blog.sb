@@ -2,6 +2,7 @@ import { PrismaClient, User } from '@prisma/client';
 import { Request, Response } from 'express';
 import boom from '@hapi/boom';
 import argon2 from 'argon2';
+import { IUser } from '../models/interfaces';
 
 const prisma = new PrismaClient();
 

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
+import { IPost } from '../models/interfaces';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,9 @@ class PostsController {
     try {
       const post = await prisma.post.findMany({
         include: {
-          user:true
+          user: {
+            select:{username:true}
+          }
         }
       });
       return res.status(200).json({

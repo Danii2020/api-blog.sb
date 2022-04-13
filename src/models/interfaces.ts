@@ -3,8 +3,9 @@ interface IUser {
   name:string,
   username:string,
   email:string,
+  password:string,
   role:string,
-  posts:IPost[]
+  posts:IPost[] | null
 }
 
 interface IPost {
@@ -13,7 +14,8 @@ interface IPost {
   createdAt:Date,
   content:string,
   published:boolean,
-  authorId:number
+  authorId:number,
+  user:IUser
 }
 
 export { IUser, IPost }
