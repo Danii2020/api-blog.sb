@@ -2,7 +2,6 @@ import boom from "@hapi/boom";
 import { NextFunction, Request, Response } from "express";
 import { config } from "../../config/config";
 import { IUser } from "../models/interfaces";
-import passport from "passport";
 
 const checkApiKey = (req:Request, res:Response, next:NextFunction) => {
   const apiKey = req.headers['api'];
@@ -10,7 +9,6 @@ const checkApiKey = (req:Request, res:Response, next:NextFunction) => {
     ? next()
     : next(boom.unauthorized());
 }
-
 
 const checkRoles = (...roles:Array<string>) => {
   return (req:Request, res:Response, next:NextFunction) => {
@@ -20,7 +18,5 @@ const checkRoles = (...roles:Array<string>) => {
     : next(boom.forbidden("You don't have permission to access to this resource"));
   }
 }
-
-
 
 export { checkApiKey, checkRoles }

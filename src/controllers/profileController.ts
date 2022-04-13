@@ -1,15 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express';
 import boom from '@hapi/boom';
-import { IUser } from '../models/interfaces';
+import { IPost, IUser } from '../models/interfaces';
 
 const prisma = new PrismaClient();
 
 class ProfileController {
-  public static async getProfile(req:Request, res:Response) {
+  public static async getProfile(req:Request, res:Response):Promise<any> {
     try {
-      const user = req.user;
-      const posts = await prisma.post.findMany({
+      const user = <IUser> req.user;
+      const posts = <IPost> <unknown> await prisma.post.findMany({
         where: {
           user: {
             userId:user?.sub

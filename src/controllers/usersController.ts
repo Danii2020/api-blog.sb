@@ -9,11 +9,12 @@ const prisma = new PrismaClient();
 class UsersController {
   public static async getAllUsers(req:Request, res:Response):Promise<any> {
     try {
-      const user = await prisma.user.findMany({
+      const user = <IUser> <unknown> await prisma.user.findMany({
         include: {
-          posts:true
+          posts: true
         }
       });
+      delete user.password;
       return res.status(200).json({
         data:user
       });
@@ -36,33 +37,9 @@ class UsersController {
       if (!user) {
         boom.notFound("User not found");
       }
+      delete user.password;
       return res.status(200).json({
         data:user
-      });
-    } catch (error) {
-      console.log(error);
-      boom.internal("Server error");
-    }
-  }
-
-  public static async postUser(req:Request, res:Response):Promise<any> {
-    try {
-      const hash = await argon2.hash(req.body.password, {type: argon2.argon2id});
-      console.log(hash);
-      const newUser = <IUser> await prisma.user.create({
-        data: {
-          name:req.body.name,
-          username:req.body.username,
-          email:req.body.email,
-          password:hash,
-          role:req.body.role || 'user',
-          posts:req.body.post
-        }
-      });
-      delete newUser.password;
-      return res.status(200).json({
-        message:"User created",
-        data:newUser
       });
     } catch (error) {
       console.log(error);
@@ -107,6 +84,7 @@ class UsersController {
       if (!user) {
         boom.notFound("User not found");
       }
+      delete user.password;
       return res.status(200).json({
         message:"User deleted",
         data:user

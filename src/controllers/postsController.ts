@@ -36,7 +36,7 @@ class PostsController {
         }
       }
       });
-      if (post === null) {
+      if (!post) {
         res.sendStatus(404);
       }
       return res.status(200).json({
@@ -88,7 +88,7 @@ class PostsController {
           content:req.body.content
         }
       });
-      if (updatedPost === null) {
+      if (!updatedPost) {
         res.sendStatus(404);
       }
       return res.status(201).json({
@@ -108,7 +108,7 @@ class PostsController {
           postId: Number(req.params.id)
         }
       });
-      if (post === null) {
+      if (!post) {
         res.sendStatus(404);
       }
       return res.status(200).json({

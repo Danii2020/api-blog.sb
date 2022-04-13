@@ -7,11 +7,9 @@ import argon2 from 'argon2';
 
 const prisma = new PrismaClient();
 
-
-
 class AuthController {
 
-  public static async signUp(req:Request, res:Response, next:NextFunction) {
+  public static async signUp(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const hash = await argon2.hash(req.body.password, {type: argon2.argon2id});
       console.log(hash);
@@ -35,7 +33,7 @@ class AuthController {
       boom.internal("Server error");
     }
   }
-  public static async login(req:Request, res:Response, next:NextFunction) {
+  public static async login(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUser> req.user;
       res.json(AuthService.signToken(user));

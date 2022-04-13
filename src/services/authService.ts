@@ -11,7 +11,7 @@ const jwtConfig = {
 }
 
 class AuthService {
-  public static async getUser(email:string, password:string) {
+  public static async getUser(email:string, password:string):Promise<IUser> {
     const user = <IUser> await UserService.findByEmail(email);
     if (!user) {
       throw boom.unauthorized("You don't have access to this resource");
@@ -24,7 +24,7 @@ class AuthService {
     return user;
   }
 
-  public static signToken(user:IUser) {
+  public static signToken(user:IUser):object {
       const payload = {
         sub: user.userId,
         role: user.role

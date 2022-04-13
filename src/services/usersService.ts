@@ -4,9 +4,8 @@ import { IUser } from '../models/interfaces';
 
 const prisma = new PrismaClient();
 
-
 class UserService {
-  public static async findByEmail(email:string) {
+  public static async findByEmail(email:string):Promise<IUser> {
     const user = <IUser> await prisma.user.findUnique({
       where: { email:email}
     });
