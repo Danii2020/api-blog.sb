@@ -1,13 +1,13 @@
-import { PrismaClient, User } from '@prisma/client';
-import { NextFunction, Request, Response } from 'express';
+import { PrismaClient} from '@prisma/client';
+import { Request, Response } from 'express';
 import boom from '@hapi/boom';
-import argon2 from 'argon2';
 import { IUser } from '../models/interfaces';
+import UserService from '../services/usersService';
 
 const prisma = new PrismaClient();
 
 class UsersController {
-  public static async getAllUsers(req:Request, res:Response, next:NextFunction):Promise<any> {
+  public static async getAllUsers(req:Request, res:Response):Promise<any> {
     try {
       const users = <IUser[]> await prisma.user.findMany({
         include: {
@@ -15,10 +15,9 @@ class UsersController {
         }
       });
       users.map(user => delete user.password);
-      res.status(200).json({
+      return res.status(200).json({
         data:users
       });
-      next();
     } catch (error) {
       console.log(error);
       return res.sendStatus(500);
@@ -55,7 +54,7 @@ class UsersController {
           userId: Number(req.params.id)
         },
         data : {
-          name:req.body.name,
+          firstname:req.body.firstname,
           lastname:req.body.lastname,
           username:req.body.username,
           email:req.body.email,
@@ -99,18 +98,16 @@ class UsersController {
 
   public static async getSortedUsers(req:Request, res:Response):Promise<any> {
     try {
-
-      const users = <IUser[]> await prisma.user.findMany({
-        orderBy: {
-          name: "asc"
-        }
+      const users = <IUser[]> await prisma.user.findMany();
+      const orderedUsers = users.sort((a, b) => {
+        return a.firstname === b.firstname ? 0: a.firstname > b.firstname ? 1: -1;
       });
-      const usersUpper = users.map(user => ({
-        name:user.name,
+      const upperUsers = orderedUsers.map(user => ({
+        firstname:user.firstname,
         lastname:user.lastname.toUpperCase()
       }));
       return res.status(200).json({
-        data:usersUpper
+        data:upperUsers
       });
 
     } catch (error) {
@@ -118,8 +115,30 @@ class UsersController {
       boom.internal("Server error");
     }
   }
+
+  public static async getABCNames(req:Request, res:Response):Promise<any> {
+    try {
+      const abcNames:IUser[] = await UserService.findABCNames();
+      return res.status(200).json({
+        data:abcNames
+      });
+    } catch (error) {
+      console.log(error);
+      boom.internal("Server error");
+    }
+  }
+
+  public static async getABCCount(req:Request, res:Response):Promise<any> {
+    try {
+      const abcCount = await UserService.countABCNames();
+      return res.status(200).json({
+        data:abcCount
+      });
+    } catch (error) {
+      console.log(error);
+      boom.internal("Server error");
+    }
+  }
 }
-
-
 
 export default UsersController;

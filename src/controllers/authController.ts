@@ -13,7 +13,7 @@ class AuthController {
       const hash = await argon2.hash(req.body.password, {type: argon2.argon2id});
       const newUser = <IUser> await prisma.user.create({
         data: {
-          name:req.body.name,
+          firstname:req.body.firstname,
           lastname:req.body.lastname,
           username:req.body.username,
           email:req.body.email,

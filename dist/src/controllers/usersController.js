@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
 const boom_1 = __importDefault(require("@hapi/boom"));
+const usersService_1 = __importDefault(require("../services/usersService"));
 const prisma = new client_1.PrismaClient();
 class UsersController {
-    static async getAllUsers(req, res, next) {
+    static async getAllUsers(req, res) {
         try {
             const users = await prisma.user.findMany({
                 include: {
@@ -15,10 +16,9 @@ class UsersController {
                 }
             });
             users.map(user => delete user.password);
-            res.status(200).json({
+            return res.status(200).json({
                 data: users
             });
-            next();
         }
         catch (error) {
             console.log(error);
@@ -55,7 +55,7 @@ class UsersController {
                     userId: Number(req.params.id)
                 },
                 data: {
-                    name: req.body.name,
+                    firstname: req.body.firstname,
                     lastname: req.body.lastname,
                     username: req.body.username,
                     email: req.body.email,
@@ -99,17 +99,40 @@ class UsersController {
     }
     static async getSortedUsers(req, res) {
         try {
-            const users = await prisma.user.findMany({
-                orderBy: {
-                    name: "asc"
-                }
+            const users = await prisma.user.findMany();
+            const orderedUsers = users.sort((a, b) => {
+                return a.firstname === b.firstname ? 0 : a.firstname > b.firstname ? 1 : -1;
             });
-            const usersUpper = users.map(user => ({
-                name: user.name,
+            const upperUsers = orderedUsers.map(user => ({
+                firstname: user.firstname,
                 lastname: user.lastname.toUpperCase()
             }));
             return res.status(200).json({
-                data: usersUpper
+                data: upperUsers
+            });
+        }
+        catch (error) {
+            console.log(error);
+            boom_1.default.internal("Server error");
+        }
+    }
+    static async getABCNames(req, res) {
+        try {
+            const abcNames = await usersService_1.default.findABCNames();
+            return res.status(200).json({
+                data: abcNames
+            });
+        }
+        catch (error) {
+            console.log(error);
+            boom_1.default.internal("Server error");
+        }
+    }
+    static async getABCCount(req, res) {
+        try {
+            const abcCount = await usersService_1.default.countABCNames();
+            return res.status(200).json({
+                data: abcCount
             });
         }
         catch (error) {

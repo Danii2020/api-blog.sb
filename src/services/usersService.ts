@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import { Request, Response } from 'express';
 import { IUser } from '../models/interfaces';
+import boom from '@hapi/boom';
 
 const prisma = new PrismaClient();
 
@@ -10,6 +10,34 @@ class UserService {
       where: { email:email}
     });
     return user;
+  }
+
+  public static async findABCNames():Promise<IUser[]> {
+    const users = <IUser[]> await prisma.user.findMany();
+    const abcUsers = users.filter(user =>
+      user.firstname[0].toLowerCase() === 'a' ||
+      user.firstname[0].toLowerCase() === 'b' ||
+      user.firstname[0].toLowerCase() === 'c');
+    abcUsers.map(user => delete user.password);
+    return abcUsers;
+  }
+
+  private static async countNames(letter:string):Promise<number> {
+    const abcNames:IUser[] = await UserService.findABCNames();
+    const count:number = abcNames.filter(user => user.firstname[0].toLowerCase() === letter)
+      .reduce((sum, user) => sum + 1,0);
+    return count;
+  }
+
+  public static async countABCNames():Promise<object> {
+    const aCounter = await this.countNames('a');
+    const bCounter = await this.countNames('b');
+    const cCounter = await this.countNames('c');
+    return {
+      aNames: aCounter,
+      bNames: bCounter,
+      cNames: cCounter
+    }
   }
 }
 

@@ -9,5 +9,29 @@ class UserService {
         });
         return user;
     }
+    static async findABCNames() {
+        const users = await prisma.user.findMany();
+        const abcUsers = users.filter(user => user.firstname[0].toLowerCase() === 'a' ||
+            user.firstname[0].toLowerCase() === 'b' ||
+            user.firstname[0].toLowerCase() === 'c');
+        abcUsers.map(user => delete user.password);
+        return abcUsers;
+    }
+    static async countNames(letter) {
+        const abcNames = await UserService.findABCNames();
+        const count = abcNames.filter(user => user.firstname[0].toLowerCase() === letter)
+            .reduce((sum, user) => sum + 1, 0);
+        return count;
+    }
+    static async countABCNames() {
+        const aCounter = await this.countNames('a');
+        const bCounter = await this.countNames('b');
+        const cCounter = await this.countNames('c');
+        return {
+            aNames: aCounter,
+            bNames: bCounter,
+            cNames: cCounter
+        };
+    }
 }
 exports.default = UserService;
