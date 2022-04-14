@@ -1,6 +1,5 @@
 const express = require('express');
 import { logErrors, errorHandler, boomErrorHandler } from './middlewares/errorHandler';
-import { checkApiKey } from './middlewares/authHandler';
 import { Request, Response } from "express";
 import { routerApi } from "./routes";
 import { config } from '../config/config';
@@ -11,7 +10,7 @@ const port = config.port;
 app.use(express.json());
 require('./utils/auth');
 
-app.get('/', checkApiKey, (req:Request, res:Response) => {
+app.get('/', (req:Request, res:Response) => {
   res.send("Hello, this is my server in Express");
 });
 
@@ -24,3 +23,5 @@ app.use(errorHandler);
 app.listen(port, () => {
   console.log('Listening in ' + port);
 })
+
+export {app}
