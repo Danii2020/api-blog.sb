@@ -10,8 +10,9 @@ exports.app = app;
 const port = config_1.config.port;
 app.use(express.json());
 require('./../utils/auth');
+app.set('view engine', 'pug');
 app.get('/', (req, res) => {
-    res.send("Hello, this is my server in Express");
+    res.render('index');
 });
 (0, routes_1.routerApi)(app);
 app.use(errorHandler_1.logErrors);

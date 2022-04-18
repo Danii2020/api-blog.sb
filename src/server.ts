@@ -10,8 +10,10 @@ const port = config.port;
 app.use(express.json());
 require('./utils/auth');
 
+app.set('view engine', 'pug')
+
 app.get('/', (req:Request, res:Response) => {
-  res.send("Hello, this is my server in Express");
+  res.render('index');
 });
 
 routerApi(app);
