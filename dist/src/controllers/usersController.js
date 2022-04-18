@@ -16,6 +16,7 @@ class UsersController {
                 }
             });
             users.map(user => delete user.password);
+            users.map(user => delete user.role);
             return res.status(200).json({
                 data: users
             });
@@ -25,7 +26,7 @@ class UsersController {
             return res.sendStatus(500);
         }
     }
-    static async getOneUser(req, res) {
+    static async getOneUser(req, res, next) {
         try {
             const user = await prisma.user.findUnique({
                 where: {
@@ -36,9 +37,10 @@ class UsersController {
                 }
             });
             if (!user) {
-                boom_1.default.notFound("User not found");
+                next(boom_1.default.notFound("User not found"));
             }
             delete user.password;
+            delete user.role;
             return res.status(200).json({
                 data: user
             });

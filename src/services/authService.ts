@@ -14,11 +14,11 @@ class AuthService {
   public static async getUser(email:string, password:string):Promise<IUser> {
     const user = <IUser> await UserService.findByEmail(email);
     if (!user) {
-      throw boom.unauthorized("You don't have access to this resource");
+      throw boom.unauthorized("Your crendentials are bad.");
     }
     const isMatch:boolean = await compareHash(user?.password, password);
     if (!isMatch) {
-      throw boom.unauthorized("You don't have access to this resource");
+      throw boom.unauthorized("Your crendentials are bad.");
     }
     delete user?.password;
     return user;

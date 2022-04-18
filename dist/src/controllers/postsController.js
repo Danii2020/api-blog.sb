@@ -25,7 +25,7 @@ class PostsController {
             boom_1.default.internal("Internal server error");
         }
     }
-    static async getOnePost(req, res) {
+    static async getOnePost(req, res, next) {
         try {
             const post = await prisma.post.findUnique({
                 where: {
@@ -38,7 +38,7 @@ class PostsController {
                 }
             });
             if (!post) {
-                boom_1.default.notFound("Post not found");
+                next(boom_1.default.notFound("Post not found"));
             }
             return res.status(200).json({
                 data: post

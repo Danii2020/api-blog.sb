@@ -6,7 +6,7 @@ import passport from "passport";
 const usersRouter = express.Router()
 
 usersRouter.get('/', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), UsersController.getAllUsers);
+checkRoles("admin", "user"), UsersController.getAllUsers);
 
 usersRouter.get('/sortbyalpha', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.getSortedUsers);
@@ -18,10 +18,10 @@ usersRouter.get('/countabc', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.getABCCount);
 
 usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), UsersController.getOneUser);
+checkRoles("admin", "user"), UsersController.getOneUser);
 
 usersRouter.patch('/:id', passport.authenticate('jwt', {session: false}),
-checkRoles("admin", "user"), UsersController.patchUser);
+checkRoles("admin"), UsersController.patchUser);
 
 usersRouter.delete('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.deleteUser);

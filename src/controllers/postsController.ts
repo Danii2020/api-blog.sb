@@ -24,7 +24,7 @@ class PostsController {
     }
   }
 
-  public static async getOnePost(req:Request, res:Response):Promise<any> {
+  public static async getOnePost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const post = <IPost> await prisma.post.findUnique({
         where: {
@@ -37,7 +37,7 @@ class PostsController {
       }
       });
       if (!post) {
-        boom.notFound("Post not found");
+        next(boom.notFound("Post not found"));
       }
       return res.status(200).json({
         data:post

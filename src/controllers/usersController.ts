@@ -1,5 +1,5 @@
 import { PrismaClient} from '@prisma/client';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import boom from '@hapi/boom';
 import { IUser } from '../models/interfaces';
 import UserService from '../services/usersService';
@@ -15,6 +15,7 @@ class UsersController {
         }
       });
       users.map(user => delete user.password);
+      users.map(user => delete user.role);
       return res.status(200).json({
         data:users
       });
@@ -24,7 +25,7 @@ class UsersController {
     }
   }
 
-  public static async getOneUser(req:Request, res:Response):Promise<any> {
+  public static async getOneUser(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUser> await prisma.user.findUnique({
         where: {
@@ -35,9 +36,10 @@ class UsersController {
         }
       });
       if (!user) {
-        boom.notFound("User not found");
+        next(boom.notFound("User not found"));
       }
       delete user.password;
+      delete user.role;
       return res.status(200).json({
         data:user
       });
