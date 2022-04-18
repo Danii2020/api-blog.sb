@@ -96,7 +96,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            next(boom_1.default.notFound("Post not found"));
+            next(boom_1.default.internal("Internal server error"));
         }
     }
     static async deletePost(req, res, next) {

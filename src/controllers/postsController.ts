@@ -94,7 +94,7 @@ class PostsController {
       })
     } catch (error) {
       console.log(error);
-      next(boom.notFound("Post not found"));
+      next(boom.internal("Internal server error"));
     }
   }
 
