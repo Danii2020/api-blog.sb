@@ -11,6 +11,6 @@ const postsRouter = express_1.default.Router();
 postsRouter.get('/', postsController_1.default.getAllPosts);
 postsRouter.get('/:id', postsController_1.default.getOnePost);
 postsRouter.post('/', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.postPost);
-postsRouter.patch('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.patchPost);
+postsRouter.patch('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), postsController_1.default.patchPost);
 postsRouter.delete('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), postsController_1.default.deletePost);
 exports.default = postsRouter;

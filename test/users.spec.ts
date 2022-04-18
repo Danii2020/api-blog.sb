@@ -72,7 +72,7 @@ describe("GET /users/id with a 404 not found status code", () => {
   });
 });
 
-describe("PATCH /users/id with 201 status code", () => {
+describe("PATCH /users/id with a 201 status code", () => {
   context("when a PATCH request is made to /users/id", () => {
     it ("update a user property with a 201 HTTP status", (done) => {
       const updatedUser = {
@@ -93,7 +93,7 @@ describe("PATCH /users/id with 201 status code", () => {
   });
 });
 
-describe("PATCH /users/id with 403 forbidden status code", () => {
+describe("PATCH /users/id with a 403 forbidden status code", () => {
   context("when a PATCH request is made to /users/id", () => {
     it ("returns a 403 HTTP status", (done) => {
       const updatedUser = {
@@ -111,10 +111,28 @@ describe("PATCH /users/id with 403 forbidden status code", () => {
   });
 });
 
+describe("PATCH /users/id with a 404 not found status code", () => {
+  context("when a PATCH request is made to /users/id", () => {
+    it ("returns a 404 HTTP status", (done) => {
+      const updatedUser = {
+        username:"carlii"
+      }
+      chai.request(URL)
+        .patch(usersRoute + '/20')
+        .auth(adminTestToken, {type: 'bearer'})
+        .send(updatedUser)
+        .then((res) => {
+          expect(res).to.have.status(404);
+        done();
+        }).catch((err) => done(err));
+    });
+  });
+});
+
 
 describe("DELETE /users/id with 200 status code", () => {
   context("when a DELETE request is made to /users/id", () => {
-    it ("delete a user with a 200 HTTP status", (done) => {
+    it ("deletes a user with a 200 HTTP status", (done) => {
       chai.request(URL)
         .delete(usersRoute + '/8')
         .auth(adminTestToken, {type: 'bearer'})
@@ -128,7 +146,7 @@ describe("DELETE /users/id with 200 status code", () => {
   });
 });
 
-describe("DELETE /users/id with 403 Forbidden status code", () => {
+describe("DELETE /users/id with a 403 forbidden status code", () => {
   context("when a DELETE request is made to /users/id", () => {
     it ("returns a 403 HTTP status", (done) => {
       chai.request(URL)
@@ -136,6 +154,20 @@ describe("DELETE /users/id with 403 Forbidden status code", () => {
         .auth(userTestToken, {type: 'bearer'})
         .then((res) => {
           expect(res).to.have.status(403);
+        done();
+        }).catch((err) => done(err));
+    })
+  });
+});
+
+describe("DELETE /users/id with a 404 not found status code", () => {
+  context("when a DELETE request is made to /users/id", () => {
+    it ("returns a 404 HTTP status", (done) => {
+      chai.request(URL)
+        .delete(usersRoute + '/25')
+        .auth(userTestToken, {type: 'bearer'})
+        .then((res) => {
+          expect(res).to.have.status(404);
         done();
         }).catch((err) => done(err));
     })

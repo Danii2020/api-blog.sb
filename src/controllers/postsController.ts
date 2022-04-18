@@ -6,7 +6,7 @@ import boom from '@hapi/boom';
 const prisma = new PrismaClient();
 
 class PostsController {
-  public static async getAllPosts(req:Request, res:Response):Promise<any> {
+  public static async getAllPosts(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const post =  await prisma.post.findMany({
         include: {
@@ -20,7 +20,7 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Internal server error");
+      next(boom.internal("Internal server error"));
     }
   }
 
@@ -44,11 +44,11 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Internal server error");
+      next(boom.internal("Internal server error"));
     }
   }
 
-  public static async postPost(req:Request, res:Response):Promise<any> {
+  public static async postPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUser> await prisma.user.findUnique({
         where: {
@@ -56,7 +56,7 @@ class PostsController {
         }
       });
       if (!user) {
-        boom.notFound("User not found");
+        next(boom.notFound("User not found"));
       }
       const newPost = <IPost> await prisma.post.create({
         data: {
@@ -73,11 +73,11 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Internal server error");
+      next(boom.internal("Internal server error"));
     }
   }
 
-  public static async patchPost(req:Request, res:Response):Promise<any> {
+  public static async patchPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const updatedPost = <IPost> await prisma.post.update({
         where : {
@@ -88,36 +88,31 @@ class PostsController {
           content:req.body.content
         }
       });
-      if (!updatedPost) {
-        boom.notFound("Post not found");
-      }
       return res.status(201).json({
         message:"Post updated",
         data:updatedPost
       })
     } catch (error) {
       console.log(error);
-      boom.internal("Internal server error");
+      next(boom.notFound("Post not found"));
     }
   }
 
-  public static async deletePost(req:Request, res:Response):Promise<any> {
+  public static async deletePost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const post = <IPost> await prisma.post.delete({
         where: {
           postId: Number(req.params.id)
         }
       });
-      if (!post) {
-        boom.notFound("Post not found");
-      }
+      console.log(post)
       return res.status(200).json({
         message:"Post deleted",
         data:post
       })
     } catch (error) {
       console.log(error);
-      boom.internal("Internal server error");
+      next(boom.notFound("Post not found"));
     }
   }
 }

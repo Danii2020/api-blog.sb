@@ -47,10 +47,10 @@ class UsersController {
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.internal("Server error"));
         }
     }
-    static async patchUser(req, res) {
+    static async patchUser(req, res, next) {
         try {
             const updatedUser = await prisma.user.update({
                 where: {
@@ -64,9 +64,6 @@ class UsersController {
                     password: req.body.password
                 }
             });
-            if (!updatedUser) {
-                boom_1.default.notFound("User not found");
-            }
             delete updatedUser.password;
             return res.status(201).json({
                 message: "User updated",
@@ -75,19 +72,16 @@ class UsersController {
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.notFound("User not found"));
         }
     }
-    static async deleteUser(req, res) {
+    static async deleteUser(req, res, next) {
         try {
             const user = await prisma.user.delete({
                 where: {
                     userId: Number(req.params.id)
                 }
             });
-            if (!user) {
-                boom_1.default.notFound("User not found");
-            }
             delete user.password;
             return res.status(200).json({
                 message: "User deleted",
@@ -96,12 +90,15 @@ class UsersController {
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.notFound("User not found"));
         }
     }
-    static async getSortedUsers(req, res) {
+    static async getSortedUsers(req, res, next) {
         try {
             const users = await prisma.user.findMany();
+            if (!users) {
+                next(boom_1.default.notFound("Users not found"));
+            }
             const orderedUsers = users.sort((a, b) => {
                 return a.firstname === b.firstname ? 0 : a.firstname > b.firstname ? 1 : -1;
             });
@@ -115,31 +112,37 @@ class UsersController {
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.internal("Server error"));
         }
     }
-    static async getABCNames(req, res) {
+    static async getABCNames(req, res, next) {
         try {
             const abcNames = await usersService_1.default.findABCNames();
+            if (!abcNames) {
+                next(boom_1.default.notFound("Users not found"));
+            }
             return res.status(200).json({
                 data: abcNames
             });
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.internal("Server error"));
         }
     }
-    static async getABCCount(req, res) {
+    static async getABCCount(req, res, next) {
         try {
             const abcCount = await usersService_1.default.countABCNames();
+            if (!abcCount) {
+                next(boom_1.default.notFound("Users not found"));
+            }
             return res.status(200).json({
                 data: abcCount
             });
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.internal("Server error"));
         }
     }
 }

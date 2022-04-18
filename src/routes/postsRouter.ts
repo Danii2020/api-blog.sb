@@ -15,7 +15,7 @@ postsRouter.post('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.postPost);
 
 postsRouter.patch('/:id', passport.authenticate('jwt', {session: false}),
-checkRoles("admin", "user"), PostsController.patchPost);
+checkRoles("admin"), PostsController.patchPost);
 
 postsRouter.delete('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), PostsController.deletePost);

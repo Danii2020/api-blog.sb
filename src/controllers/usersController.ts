@@ -45,11 +45,11 @@ class UsersController {
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.internal("Server error"));
     }
   }
 
-  public static async patchUser(req:Request, res:Response):Promise<any> {
+  public static async patchUser(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const updatedUser  = <IUser> await prisma.user.update({
         where : {
@@ -63,9 +63,6 @@ class UsersController {
           password:req.body.password
         }
       });
-      if (!updatedUser) {
-        boom.notFound("User not found");
-      }
       delete updatedUser.password;
       return res.status(201).json({
         message:"User updated",
@@ -73,20 +70,17 @@ class UsersController {
       })
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.notFound("User not found"));
     }
   }
 
-  public static async deleteUser(req:Request, res:Response):Promise<any> {
+  public static async deleteUser(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUser> await prisma.user.delete({
         where: {
           userId: Number(req.params.id)
         }
       });
-      if (!user) {
-        boom.notFound("User not found");
-      }
       delete user.password;
       return res.status(200).json({
         message:"User deleted",
@@ -94,13 +88,16 @@ class UsersController {
       })
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.notFound("User not found"));
     }
   }
 
-  public static async getSortedUsers(req:Request, res:Response):Promise<any> {
+  public static async getSortedUsers(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const users = <IUser[]> await prisma.user.findMany();
+      if (!users){
+        next(boom.notFound("Users not found"));
+      }
       const orderedUsers = users.sort((a, b) => {
         return a.firstname === b.firstname ? 0: a.firstname > b.firstname ? 1: -1;
       });
@@ -114,31 +111,37 @@ class UsersController {
 
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.internal("Server error"));
     }
   }
 
-  public static async getABCNames(req:Request, res:Response):Promise<any> {
+  public static async getABCNames(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const abcNames:IUser[] = await UserService.findABCNames();
+      if (!abcNames){
+        next(boom.notFound("Users not found"));
+      }
       return res.status(200).json({
         data:abcNames
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.internal("Server error"));
     }
   }
 
-  public static async getABCCount(req:Request, res:Response):Promise<any> {
+  public static async getABCCount(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const abcCount = await UserService.countABCNames();
+      if (!abcCount){
+        next(boom.notFound("Users not found"));
+      }
       return res.status(200).json({
         data:abcCount
       });
     } catch (error) {
       console.log(error);
-      boom.internal("Server error");
+      next(boom.internal("Server error"));
     }
   }
 }

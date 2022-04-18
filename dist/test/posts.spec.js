@@ -20,7 +20,7 @@ describe("GET /posts with a 200 OK status code", () => {
                 .then((res) => {
                 (0, chai_2.expect)(res).to.have.status(200);
                 (0, chai_2.expect)(res.body.data).to.be.an('array');
-                (0, chai_2.expect)(res.body.data).length(2);
+                (0, chai_2.expect)(res.body.data).length(1);
                 done();
             }).catch((err) => done(err));
         });
@@ -55,29 +55,29 @@ describe("GET /posts/id with a 404 not found status code", () => {
         });
     });
 });
-// describe("POST /posts/id with a a 200 OK status code", () => {
-//   context("when a POST request is made to /posts route", () => {
-//     it("creates a new post with a 200 HTTP status code", (done) => {
-//       const newPost = {
-//         title:"Vanessa's post",
-//         content:"This is my new post"
-//       }
-//       chai.request(URL)
-//         .post(postsRoute)
-//         .auth(userTestToken, {type: 'bearer'})
-//         .send(newPost)
-//         .then((res) => {
-//           expect(res).to.have.status(200);
-//           expect(res.body.data.postId).to.be.equals(2);
-//           expect(res.body.data.title).to.be.equals("Vanessa's post");
-//           expect(res.body.data.authorId).to.be.equals(10);
-//         done()
-//         }).catch((err) => done(err));
-//     });
-//   });
-// });
-describe("POST /posts/id with a a 401 unauthorized status code", () => {
+describe("POST /posts/id with a a 200 OK status code", () => {
     context("when a POST request is made to /posts route", () => {
+        it("creates a new post with a 200 HTTP status code", (done) => {
+            const newPost = {
+                title: "Vanessa's post",
+                content: "This is my new post"
+            };
+            chai_1.default.request(URL)
+                .post(postsRoute)
+                .auth(userTestToken, { type: 'bearer' })
+                .send(newPost)
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(200);
+                (0, chai_2.expect)(res.body.data.postId).to.be.equals(2);
+                (0, chai_2.expect)(res.body.data.title).to.be.equals("Vanessa's post");
+                (0, chai_2.expect)(res.body.data.authorId).to.be.equals(10);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("POST /posts/id with a a 401 unauthorized status code", () => {
+    context("when a POST request is made to /posts/id route", () => {
         it("returns a 401 HTTP status code", (done) => {
             const newPost = {
                 title: "Vanessa's post",
@@ -88,6 +88,101 @@ describe("POST /posts/id with a a 401 unauthorized status code", () => {
                 .send(newPost)
                 .then((res) => {
                 (0, chai_2.expect)(res).to.have.status(401);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("PATCH /posts/id with a a 201 status code", () => {
+    context("when a PATCH request is made to /posts/id route", () => {
+        it("updates the post property with a 201 HTTP status code", (done) => {
+            const updatedPost = {
+                title: "Vanessa's post version 2"
+            };
+            chai_1.default.request(URL)
+                .patch(postsRoute + '/2')
+                .auth(adminTestToken, { type: 'bearer' })
+                .send(updatedPost)
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(201);
+                (0, chai_2.expect)(res.body.data.title).to.be.equals("Vanessa's post version 2");
+                (0, chai_2.expect)(res.body.data.content).to.be.equals("This is my new post");
+                (0, chai_2.expect)(res.body.data.authorId).to.be.equals(10);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("PATCH /posts/id with a 403 forbidden status code", () => {
+    context("when a PATCH request is made to /posts/id route", () => {
+        it("returns a 403 HTTP status code", (done) => {
+            const updatedPost = {
+                title: "Vanessa's post version 2"
+            };
+            chai_1.default.request(URL)
+                .patch(postsRoute + '/2')
+                .auth(userTestToken, { type: 'bearer' })
+                .send(updatedPost)
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(403);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("PATCH /posts/id with a 404 not found status code", () => {
+    context("when a PATCH request is made to /posts/id route", () => {
+        it("returns a 404 HTTP status code", (done) => {
+            const updatedPost = {
+                title: "Vanessa's post version 2"
+            };
+            chai_1.default.request(URL)
+                .patch(postsRoute + '/20')
+                .auth(adminTestToken, { type: 'bearer' })
+                .send(updatedPost)
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(404);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("DELETE /posts/id with a 200 OK status code", () => {
+    context("when a DELETE request is made to /posts/id route", () => {
+        it("deletes the post with a 200 HTTP status code", (done) => {
+            chai_1.default.request(URL)
+                .delete(postsRoute + '/2')
+                .auth(adminTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(200);
+                (0, chai_2.expect)(res.body.data.postId).to.be.equals(2);
+                (0, chai_2.expect)(res.body.data.authorId).to.be.equals(10);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("DELETE /posts/id with a 403 forbidden status code", () => {
+    context("when a DELETE request is made to /posts/id route", () => {
+        it("returns a 403 HTTP status code", (done) => {
+            chai_1.default.request(URL)
+                .delete(postsRoute + '/1')
+                .auth(userTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(403);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("DELETE /posts/id with a 404 not found status code", () => {
+    context("when a DELETE request is made to /posts/id route", () => {
+        it("returns a 404 HTTP status code", (done) => {
+            chai_1.default.request(URL)
+                .delete(postsRoute + '/56')
+                .auth(adminTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res).to.have.status(404);
                 done();
             }).catch((err) => done(err));
         });
