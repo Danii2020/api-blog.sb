@@ -163,3 +163,62 @@ describe("DELETE /users/id with a 404 not found status code", () => {
         });
     });
 });
+describe("GET /users/sortbyalpha", () => {
+    context("when a GET request is made to the /users/sortbyalpha route", () => {
+        it("returns all users sorted by name", (done) => {
+            chai_1.default.request(URL)
+                .get(usersRoute + '/sortbyalpha')
+                .auth(userTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res.body.data[0].firstname).to.be.equals("Andrea");
+                (0, chai_2.expect)(res.body.data[1].firstname).to.be.equals("Bernarda");
+                (0, chai_2.expect)(res.body.data[2].firstname).to.be.equals("Daniel");
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("GET /users/sortbyalpha", () => {
+    context("when a GET request is made to the /users/sortbyalpha route", () => {
+        it("returns all users whose lastnames are in upper case", (done) => {
+            chai_1.default.request(URL)
+                .get(usersRoute + '/sortbyalpha')
+                .auth(userTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res.body.data[0].lastname).to.be.equals("LOPEZ");
+                (0, chai_2.expect)(res.body.data[1].lastname).to.be.equals("ESPINOZA");
+                (0, chai_2.expect)(res.body.data[2].lastname).to.be.equals("ERAZO");
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("GET /users/abcnames", () => {
+    context("when a GET request is made to the /users/abcnames route", () => {
+        it("returns all users whose firstnames starts with 'a', 'b' and 'c'", (done) => {
+            chai_1.default.request(URL)
+                .get(usersRoute + '/abcnames')
+                .auth(userTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res.body.data[0].firstname).to.be.equals("Andrea");
+                (0, chai_2.expect)(res.body.data[1].firstname).to.be.equals("Bernarda");
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});
+describe("GET /users/countabc", () => {
+    context("when a GET request is made to the /users/countabc route", () => {
+        it("returns the number of users whose firstname starts with 'a', 'b' and 'c'", (done) => {
+            chai_1.default.request(URL)
+                .get(usersRoute + '/countabc')
+                .auth(userTestToken, { type: 'bearer' })
+                .then((res) => {
+                (0, chai_2.expect)(res.body.data.aNames).to.be.equals(1);
+                (0, chai_2.expect)(res.body.data.bNames).to.be.equals(1);
+                (0, chai_2.expect)(res.body.data.cNames).to.be.equals(0);
+                done();
+            }).catch((err) => done(err));
+        });
+    });
+});

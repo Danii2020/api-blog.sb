@@ -9,13 +9,13 @@ usersRouter.get('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.getAllUsers);
 
 usersRouter.get('/sortbyalpha', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), UsersController.getSortedUsers);
+checkRoles("admin", "user"), UsersController.getSortedUsers);
 
 usersRouter.get('/abcnames', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), UsersController.getABCNames);
+checkRoles("admin", "user"), UsersController.getABCNames);
 
 usersRouter.get('/countabc', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), UsersController.getABCCount);
+checkRoles("admin", "user"), UsersController.getABCCount);
 
 usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.getOneUser);
