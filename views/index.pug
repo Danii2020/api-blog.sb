@@ -1,3 +1,8 @@
-extends layout
-block content
-  h1 Welcome to the blog!
+doctype html
+html(leng="en")
+  include layouts/head.pug
+  include layouts/navbar.pug
+  +head("The amazing blog")
+  body
+    br
+    h1="Welcome to the amazing blog"

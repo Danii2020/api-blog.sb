@@ -9,6 +9,7 @@ const app = express();
 exports.app = app;
 const port = config_1.config.port;
 app.use(express.json());
+app.use(express.urlencoded());
 require('./../utils/auth');
 app.set('view engine', 'pug');
 app.get('/', (req, res) => {

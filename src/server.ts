@@ -8,6 +8,7 @@ const app = express();
 const port = config.port;
 
 app.use(express.json());
+app.use(express.urlencoded());
 require('./utils/auth');
 
 app.set('view engine', 'pug')

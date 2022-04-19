@@ -9,6 +9,24 @@ const boom_1 = __importDefault(require("@hapi/boom"));
 const argon2_1 = __importDefault(require("argon2"));
 const prisma = new client_1.PrismaClient();
 class AuthController {
+    static async getSignUp(req, res, next) {
+        try {
+            res.render("auth/signup");
+        }
+        catch (error) {
+            console.log(error);
+            next(boom_1.default.internal("Internal server error"));
+        }
+    }
+    static async getLogin(req, res, next) {
+        try {
+            res.render("auth/login");
+        }
+        catch (error) {
+            console.log(error);
+            next(boom_1.default.internal("Internal server error"));
+        }
+    }
     static async signUp(req, res, next) {
         try {
             const hash = await argon2_1.default.hash(req.body.password, { type: argon2_1.default.argon2id });
@@ -31,7 +49,7 @@ class AuthController {
         }
         catch (error) {
             console.log(error);
-            boom_1.default.internal("Server error");
+            next(boom_1.default.internal("Server error"));
         }
     }
     static async login(req, res, next) {
