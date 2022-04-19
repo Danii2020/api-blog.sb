@@ -13,7 +13,8 @@ export const routerApi = (app:any) => {
   router.use('/users', usersRouter);
   router.use('/posts', postsRouter);
   router.use('/auth', authRouter);
-  router.use('/profile', profileRouter);
 
-  routerView.use('/auth', viewRouter)
+  routerView.use('/auth', viewRouter);
+  routerView.use('/profile', viewRouter);
+  routerView.use('/posts', viewRouter);
 }

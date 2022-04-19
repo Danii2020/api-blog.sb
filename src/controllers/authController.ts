@@ -8,23 +8,6 @@ import argon2 from 'argon2';
 const prisma = new PrismaClient();
 
 class AuthController {
-  public static async getSignUp(req:Request, res:Response, next:NextFunction):Promise<any> {
-    try {
-      res.render("auth/signup");
-    } catch (error) {
-      console.log(error);
-      next(boom.internal("Internal server error"))
-    }
-  }
-
-  public static async getLogin(req:Request, res:Response, next:NextFunction):Promise<any> {
-    try {
-      res.render("auth/login");
-    } catch (error) {
-      console.log(error);
-      next(boom.internal("Internal server error"))
-    }
-  }
 
   public static async signUp(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
@@ -41,12 +24,7 @@ class AuthController {
           posts:req.body.post
         }
       });
-
-      delete newUser.password;
-      return res.status(200).json({
-        message:"User created",
-        data:newUser
-      });
+      return res.redirect('/view/auth/login');
     } catch (error) {
       console.log(error);
       next(boom.internal("Server error"));
@@ -56,7 +34,13 @@ class AuthController {
   public static async login(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUser> req.user;
-      res.json(AuthService.signToken(user));
+      const token:string = AuthService.signToken(user);
+      res
+        .cookie('jwt',token, {
+          httpOnly:true,
+          secure:true
+        })
+        .redirect("/view/profile/my-posts");
     } catch (error) {
       next(error);
     }

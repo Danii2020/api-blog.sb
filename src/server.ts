@@ -3,19 +3,20 @@ import { logErrors, errorHandler, boomErrorHandler } from './middlewares/errorHa
 import { Request, Response } from "express";
 import { routerApi } from "./routes";
 import { config } from '../config/config';
+import cookieParser from 'cookie-parser';
+import PostsController from './controllers/postsController';
 
 const app = express();
 const port = config.port;
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(cookieParser());
 require('./utils/auth');
 
 app.set('view engine', 'pug')
 
-app.get('/', (req:Request, res:Response) => {
-  res.render('index');
-});
+app.get('/', PostsController.getAllPosts);
 
 routerApi(app);
 

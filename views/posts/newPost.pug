@@ -1,0 +1,23 @@
+doctype html
+html(leng="en")
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
+  +head("The amazing blog")
+  body
+    br
+    .modal-dialog
+      .modal-content
+        // Modal Header
+        .modal-header
+          h4#myModalLabel.modal-title
+            | Create a new post
+        // Modal Body
+        .modal-body
+          form(role='form' method='POST' action='/api/v1/posts')
+            div.form-group
+              label(for='title') Title:
+              input#content.form-control(type='text', placeholder="Post's title" name='title', required)
+            div.form-group
+              label(for='content') Content:
+              input#content.form-control(type='text', placeholder="Post's content" name='content', required)
+            button.btn.btn-primary(type="submit") Submit

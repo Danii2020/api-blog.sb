@@ -16,7 +16,7 @@ class ProfileController {
           }
         }
       });
-      return res.status(200).json(posts);
+      return res.render("profile/myPosts", {posts:posts});
     } catch (error) {
       boom.internal("Server error");
     }

@@ -30,10 +30,7 @@ class AuthService {
             role: user.role
         };
         const token = jsonwebtoken_1.default.sign(payload, String(config_1.config.jwtSecret), jwtConfig);
-        return {
-            user,
-            token
-        };
+        return token;
     }
 }
 exports.default = AuthService;

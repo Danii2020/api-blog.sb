@@ -1,16 +1,12 @@
 
 import express  from "express";
-import PostsController from '../controllers/postsController'
-import { PrismaClient } from "@prisma/client";
+import PostsController from '../controllers/postsController';
 import { checkRoles } from "../middlewares/authHandler";
-import RenderService from "../services/renderService";
 import passport from "passport";
 
 const postsRouter = express.Router()
 
 postsRouter.get('/', PostsController.getAllPosts);
-
-postsRouter.get('/render', RenderService.renderPosts);
 
 postsRouter.get('/:id', PostsController.getOnePost);
 

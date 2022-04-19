@@ -16,9 +16,7 @@ class PostsController {
                     }
                 }
             });
-            return res.status(200).json({
-                data: post
-            });
+            return res.render("index", { posts: post });
         }
         catch (error) {
             console.log(error);
@@ -68,10 +66,7 @@ class PostsController {
                     }
                 }
             });
-            return res.status(200).json({
-                message: "Post created",
-                data: newPost
-            });
+            return res.redirect("/view/profile/my-posts");
         }
         catch (error) {
             console.log(error);

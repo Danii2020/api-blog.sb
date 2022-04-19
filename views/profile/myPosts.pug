@@ -1,16 +1,17 @@
 doctype html
 html(leng="en")
-  include layouts/head.pug
-  include layouts/navbar.pug
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
   +head("The amazing blog")
+  br
   body
-    br
-    h1(class="text-center") Welcome to the amazing blog
     each post in posts
       div(class="d-flex justify-content-center")
         div(class="card" style="width: 20rem;")
           div(class="card-body")
             h5(class="card-title")=post.title
             p(class="card-text")=post.content
-            p(class="card-text")=post.user.username
       br
+    div(class="d-flex justify-content-center")
+      button.btn.btn-primary(class="d-flex justify-content-center", type='button', onclick="location.href='/view/posts/new-post'") New Post
+

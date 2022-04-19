@@ -24,16 +24,13 @@ class AuthService {
     return user;
   }
 
-  public static signToken(user:IUser):object {
+  public static signToken(user:IUser):string {
       const payload = {
         sub: user.userId,
         role: user.role
       }
       const token = jwt.sign(payload, String(config.jwtSecret), jwtConfig);
-      return {
-        user,
-        token
-      };
+      return token;
   }
 }
 
