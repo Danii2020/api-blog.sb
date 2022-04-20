@@ -8,10 +8,10 @@ const prisma = new PrismaClient();
 class PostsController {
   public static async getAllPosts(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
-      const post =  await prisma.post.findMany({
+      const post = <Array<IPost>> await prisma.post.findMany({
         include: {
           user: {
-            select:{username:true}
+            select:{userId:true, username:true}
           }
         }
       });
@@ -38,6 +38,24 @@ class PostsController {
         next(boom.notFound("Post not found"));
       }
       return res.render("posts/updatePost", {post:post});
+    } catch (error) {
+      console.log(error);
+      next(boom.internal("Internal server error"));
+    }
+  }
+
+  public static async getPostsByUser(req:Request, res:Response, next:NextFunction):Promise<any> {
+    console.log(req.params.id)
+    try {
+      const post = <Array<IPost>> await prisma.post.findMany({
+        where: {
+          authorId:Number(req.params.id)
+        }
+      });
+      if (!post) {
+        next(boom.notFound("Post not found"));
+      }
+      return res.render("posts/userPost", {posts:post});
     } catch (error) {
       console.log(error);
       next(boom.internal("Internal server error"));

@@ -12,7 +12,7 @@ class PostsController {
             const post = await prisma.post.findMany({
                 include: {
                     user: {
-                        select: { username: true }
+                        select: { userId: true, username: true }
                     }
                 }
             });
@@ -39,6 +39,24 @@ class PostsController {
                 next(boom_1.default.notFound("Post not found"));
             }
             return res.render("posts/updatePost", { post: post });
+        }
+        catch (error) {
+            console.log(error);
+            next(boom_1.default.internal("Internal server error"));
+        }
+    }
+    static async getPostsByUser(req, res, next) {
+        console.log(req.params.id);
+        try {
+            const post = await prisma.post.findMany({
+                where: {
+                    authorId: Number(req.params.id)
+                }
+            });
+            if (!post) {
+                next(boom_1.default.notFound("Post not found"));
+            }
+            return res.render("posts/userPost", { posts: post });
         }
         catch (error) {
             console.log(error);

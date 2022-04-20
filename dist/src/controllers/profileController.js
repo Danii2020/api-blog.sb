@@ -34,17 +34,34 @@ class ProfileController {
     }
     static async getMyProfile(req, res, next) {
         try {
-            const user = req.user;
-            const profile = await prisma.user.findFirst({
+            const userReq = req.user;
+            const user = await prisma.user.findFirst({
                 where: {
-                    userId: user.sub
+                    userId: userReq.sub
                 }
             });
-            return res.render("profile/myUser", { profile });
+            return res.render("profile/myUser", { user: user, postUrl: '/view/profile/my-posts' });
         }
         catch (e) {
             console.log(e);
             return res.sendStatus(500);
+        }
+    }
+    static async getPostsByUser(req, res, next) {
+        try {
+            const post = await prisma.post.findMany({
+                where: {
+                    authorId: Number(req.params.id)
+                }
+            });
+            if (!post) {
+                next(boom_1.default.notFound("Post not found"));
+            }
+            return res.render("profile/userPost", { post: post });
+        }
+        catch (error) {
+            console.log(error);
+            next(boom_1.default.internal("Internal server error"));
         }
     }
 }

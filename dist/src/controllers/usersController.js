@@ -41,9 +41,8 @@ class UsersController {
             }
             delete user.password;
             delete user.role;
-            return res.status(200).json({
-                data: user
-            });
+            console.log(user);
+            return res.render("users/userProfile", { user: user, postUrl: `/view/users/profile/${user.userId}/posts` });
         }
         catch (error) {
             console.log(error);

@@ -1,17 +1,14 @@
-doctype html
 html(leng="en")
-  include layouts/head.pug
-  include layouts/navbar.pug
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
   +head("The amazing blog")
+  br
   body
-    br
-    h1(class="text-center") Welcome to the amazing blog
-    br
     each post in posts
       div(class="d-flex justify-content-center")
         div(class="card" style="width: 20rem;")
           div(class="card-body")
             h5(class="card-title")=post.title
             p(class="card-text")=post.content
-            a(href=`/view/users/profile/${post.user.userId}`)=post.user.username
+
       br
