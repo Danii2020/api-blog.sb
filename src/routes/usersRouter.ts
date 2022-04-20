@@ -18,11 +18,11 @@ checkRoles("admin", "user"), UsersController.getABCNames);
 usersRouter.get('/countabc', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.getABCCount);
 
-usersRouter.get('/profile/:id', passport.authenticate('jwt', {session: false}),
+usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.getOneUser);
 
 
-usersRouter.get('/profile/:id/posts', passport.authenticate('jwt', {session: false}),
+usersRouter.get('/:id/posts', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.getPostsByUser);
 
 usersRouter.patch('/:id', passport.authenticate('jwt', {session: false}),

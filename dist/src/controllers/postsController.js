@@ -38,7 +38,7 @@ class PostsController {
             if (!post) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            return res.render("posts/updatePost", { post: post });
+            return res.status(200).render("posts/updatePost", { post: post });
         }
         catch (error) {
             console.log(error);
@@ -51,12 +51,18 @@ class PostsController {
             const post = await prisma.post.findMany({
                 where: {
                     authorId: Number(req.params.id)
+                },
+                include: {
+                    user: {
+                        select: { firstname: true }
+                    }
                 }
             });
-            if (!post) {
+            if (post.length === 0) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            return res.render("posts/userPost", { posts: post });
+            console.log(post);
+            return res.status(200).render("posts/userPost", { posts: post });
         }
         catch (error) {
             console.log(error);
@@ -83,7 +89,7 @@ class PostsController {
                     }
                 }
             });
-            return res.redirect("/view/profile/my-posts");
+            return res.status(200).redirect("/view/profile/my-posts");
         }
         catch (error) {
             console.log(error);
@@ -101,10 +107,7 @@ class PostsController {
                     content: req.body.content
                 }
             });
-            return res.status(201).json({
-                message: "Post updated",
-                data: updatedPost
-            });
+            return res.status(201).redirect('/view/profile/my-posts');
         }
         catch (error) {
             console.log(error);
@@ -119,10 +122,7 @@ class PostsController {
                 }
             });
             console.log(post);
-            return res.status(200).json({
-                message: "Post deleted",
-                data: post
-            });
+            return res.status(200).redirect('/view/profile/my-posts');
         }
         catch (error) {
             console.log(error);

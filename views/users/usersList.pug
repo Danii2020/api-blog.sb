@@ -1,0 +1,16 @@
+doctype html
+html(leng="en")
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
+  +head("The amazing blog")
+  br
+  body
+    h1(class="text-center py-5") List of users
+    each user in users
+      include ../layouts/profile.pug
+        button#post-button(onclick=`location.href='/view/users/${user.userId}/posts'`)
+
+
+
+
+

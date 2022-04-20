@@ -10,16 +10,11 @@ const prisma = new client_1.PrismaClient();
 class UsersController {
     static async getAllUsers(req, res) {
         try {
-            const users = await prisma.user.findMany({
-                include: {
-                    posts: true
-                }
-            });
+            const users = await prisma.user.findMany();
             users.map(user => delete user.password);
             users.map(user => delete user.role);
-            return res.status(200).json({
-                data: users
-            });
+            console.log(users);
+            return res.status(200).render("users/usersList", { users: users });
         }
         catch (error) {
             console.log(error);
@@ -42,7 +37,7 @@ class UsersController {
             delete user.password;
             delete user.role;
             console.log(user);
-            return res.render("users/userProfile", { user: user, postUrl: `/view/users/profile/${user.userId}/posts` });
+            return res.status(200).render("users/userProfile", { user: user, postUrl: `/view/users/${user.userId}/posts` });
         }
         catch (error) {
             console.log(error);

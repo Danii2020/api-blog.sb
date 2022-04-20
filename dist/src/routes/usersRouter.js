@@ -13,8 +13,8 @@ usersRouter.get('/', passport_1.default.authenticate('jwt', { session: false }),
 usersRouter.get('/sortbyalpha', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getSortedUsers);
 usersRouter.get('/abcnames', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCNames);
 usersRouter.get('/countabc', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCCount);
-usersRouter.get('/profile/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getOneUser);
-usersRouter.get('/profile/:id/posts', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.getPostsByUser);
+usersRouter.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getOneUser);
+usersRouter.get('/:id/posts', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.getPostsByUser);
 usersRouter.patch('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
 usersRouter.delete('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.deleteUser);
 exports.default = usersRouter;

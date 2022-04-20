@@ -8,11 +8,9 @@ html(leng="en")
     br
     .modal-dialog
       .modal-content
-        // Modal Header
         .modal-header
           h4#myModalLabel.modal-title
             | Update your post
-        // Modal Body
         .modal-body
           form(role='form' method='POST' action=`/view/posts/update/${post.postId}`)
             div.form-group
@@ -21,5 +19,5 @@ html(leng="en")
             div.form-group
               label(for='content') Content:
               input#content.form-control(type='text', value=post.content name='content')
-            button.btn.btn-primary(type="submit") Submit
+            button.btn.btn-primary(type="submit" onclick="alert('Posts updated!')") Submit
 
