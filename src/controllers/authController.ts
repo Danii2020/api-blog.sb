@@ -8,6 +8,23 @@ import argon2 from 'argon2';
 const prisma = new PrismaClient();
 
 class AuthController {
+  public static async getSignUp(req:Request, res:Response, next:NextFunction):Promise<any> {
+    try {
+      res.render("auth/signup");
+    } catch (error) {
+      console.log(error);
+      next(boom.internal("Internal server error"))
+    }
+  }
+
+  public static async getLogin(req:Request, res:Response, next:NextFunction):Promise<any> {
+    try {
+      res.render("auth/login");
+    } catch (error) {
+      console.log(error);
+      next(boom.internal("Internal server error"))
+    }
+  }
 
   public static async signUp(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
@@ -40,7 +57,7 @@ class AuthController {
           httpOnly:true,
           secure:true
         })
-        .redirect("/view/profile/my-posts");
+        .redirect("/view/profile/");
     } catch (error) {
       next(error);
     }

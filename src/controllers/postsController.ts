@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-import { IPost, IUser } from '../models/interfaces';
+import { IPost, IUser, IUserReq } from '../models/interfaces';
 import boom from '@hapi/boom';
 
 const prisma = new PrismaClient();
@@ -37,9 +37,7 @@ class PostsController {
       if (!post) {
         next(boom.notFound("Post not found"));
       }
-      return res.status(200).json({
-        data:post
-      });
+      return res.render("posts/updatePost", {post:post});
     } catch (error) {
       console.log(error);
       next(boom.internal("Internal server error"));
@@ -48,9 +46,10 @@ class PostsController {
 
   public static async postPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
+      const userReq= <IUserReq >req.user
       const user = <IUser> await prisma.user.findUnique({
         where: {
-          userId:req?.user?.sub
+          userId:userReq.sub
         }
       });
       if (!user) {

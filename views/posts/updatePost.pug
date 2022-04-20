@@ -3,6 +3,7 @@ html(leng="en")
   include ../layouts/head.pug
   include ../layouts/navbar.pug
   +head("The amazing blog")
+  br
   body
     br
     .modal-dialog
@@ -10,14 +11,15 @@ html(leng="en")
         // Modal Header
         .modal-header
           h4#myModalLabel.modal-title
-            | Create a new post
+            | Update your post
         // Modal Body
         .modal-body
-          form(role='form' method='POST' action='/api/v1/posts')
+          form(role='form' method='POST' action=`/view/posts/update/${post.postId}`)
             div.form-group
               label(for='title') Title:
-              input#content.form-control(type='text', placeholder="Post's title" name='title', required)
+              input#content.form-control(type='text', value=post.title name='title')
             div.form-group
               label(for='content') Content:
-              input#content.form-control(type='text', placeholder="Post's content" name='content', required)
+              input#content.form-control(type='text', value=post.content name='content')
             button.btn.btn-primary(type="submit") Submit
+

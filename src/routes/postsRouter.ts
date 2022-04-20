@@ -8,15 +8,15 @@ const postsRouter = express.Router()
 
 postsRouter.get('/', PostsController.getAllPosts);
 
-postsRouter.get('/:id', PostsController.getOnePost);
+postsRouter.get('/update/:id', PostsController.getOnePost);
 
 postsRouter.post('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.postPost);
 
-postsRouter.patch('/:id', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), PostsController.patchPost);
+postsRouter.post('/update/:id', passport.authenticate('jwt', {session: false}),
+checkRoles("admin", "user"), PostsController.patchPost);
 
-postsRouter.delete('/:id', passport.authenticate('jwt', {session: false}),
-checkRoles("admin"), PostsController.deletePost);
+postsRouter.delete('/delete/:id', passport.authenticate('jwt', {session: false}),
+checkRoles("admin", "user"), PostsController.deletePost);
 
 export default postsRouter;

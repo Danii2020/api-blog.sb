@@ -38,9 +38,7 @@ class PostsController {
             if (!post) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            return res.status(200).json({
-                data: post
-            });
+            return res.render("posts/updatePost", { post: post });
         }
         catch (error) {
             console.log(error);
@@ -49,9 +47,10 @@ class PostsController {
     }
     static async postPost(req, res, next) {
         try {
+            const userReq = req.user;
             const user = await prisma.user.findUnique({
                 where: {
-                    userId: req?.user?.sub
+                    userId: userReq.sub
                 }
             });
             if (!user) {

@@ -8,17 +8,15 @@ const express_1 = __importDefault(require("express"));
 const usersRouter_1 = __importDefault(require("./usersRouter"));
 const postsRouter_1 = __importDefault(require("./postsRouter"));
 const authRouter_1 = __importDefault(require("./authRouter"));
-const viewRouter_1 = __importDefault(require("./viewRouter"));
+const profileRouter_1 = __importDefault(require("./profileRouter"));
 const routerApi = (app) => {
     const router = express_1.default.Router();
-    const routerView = express_1.default.Router();
-    app.use('/api/v1', router);
-    app.use('/view', routerView);
+    //const routerView = express.Router()
+    //app.use('/api/v1', router);
+    app.use('/view', router);
     router.use('/users', usersRouter_1.default);
     router.use('/posts', postsRouter_1.default);
     router.use('/auth', authRouter_1.default);
-    routerView.use('/auth', viewRouter_1.default);
-    routerView.use('/profile', viewRouter_1.default);
-    routerView.use('/posts', viewRouter_1.default);
+    router.use('/profile', profileRouter_1.default);
 };
 exports.routerApi = routerApi;

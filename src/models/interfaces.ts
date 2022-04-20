@@ -19,4 +19,11 @@ interface IPost {
   user:IUser
 }
 
-export { IUser, IPost }
+interface IUserReq {
+  sub:number,
+  role:string,
+  iat:number,
+  exp:number
+}
+
+export { IUser, IPost, IUserReq }
