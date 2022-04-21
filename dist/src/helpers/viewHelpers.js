@@ -32,8 +32,8 @@ async function deletePost(postId) {
         return boom_1.default.internal("Internal server error");
 }
 exports.deletePost = deletePost;
-function hello() {
-    console.log("param");
+function hello(param) {
+    console.log(param);
 }
 exports.hello = hello;
 function cookieExtractor(req) {

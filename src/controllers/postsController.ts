@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import { IPost, IUser, IUserReq } from '../models/interfaces';
 import boom from '@hapi/boom';
+import { hello } from '../helpers/viewHelpers';
 
 const prisma = new PrismaClient();
 
