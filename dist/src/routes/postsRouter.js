@@ -12,5 +12,5 @@ postsRouter.get('/', postsController_1.default.getAllPosts);
 postsRouter.get('/update/:id', postsController_1.default.getOnePost);
 postsRouter.post('/', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.postPost);
 postsRouter.post('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.patchPost);
-postsRouter.get('/delete/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.deletePost);
+postsRouter.delete('/delete/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.deletePost);
 exports.default = postsRouter;

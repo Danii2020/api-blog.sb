@@ -47,22 +47,5 @@ class ProfileController {
             return res.sendStatus(500);
         }
     }
-    static async getPostsByUser(req, res, next) {
-        try {
-            const post = await prisma.post.findMany({
-                where: {
-                    authorId: Number(req.params.id)
-                }
-            });
-            if (!post) {
-                next(boom_1.default.notFound("Post not found"));
-            }
-            return res.render("profile/userPost", { post: post });
-        }
-        catch (error) {
-            console.log(error);
-            next(boom_1.default.internal("Internal server error"));
-        }
-    }
 }
 exports.default = ProfileController;

@@ -47,22 +47,7 @@ class ProfileController {
     }
   }
 
-  public static async getPostsByUser(req:Request, res:Response, next:NextFunction):Promise<any> {
-    try {
-      const post = <Array<IPost>> await prisma.post.findMany({
-        where: {
-          authorId:Number(req.params.id)
-        }
-      });
-      if (!post) {
-        next(boom.notFound("Post not found"));
-      }
-      return res.render("profile/userPost", {post:post});
-    } catch (error) {
-      console.log(error);
-      next(boom.internal("Internal server error"));
-    }
-  }
+
 }
 
 export default ProfileController;

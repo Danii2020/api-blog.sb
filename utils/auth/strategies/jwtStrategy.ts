@@ -11,6 +11,7 @@ const JwtStrategy = new Strategy(options, (payload:object, done:VerifiedCallback
   return done(null, payload);
 });
 
+
 function cookieExtractor (req:Request):string {
   let token = null;
   if (req && req.cookies) token = req.cookies['jwt'];
