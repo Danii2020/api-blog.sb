@@ -20,7 +20,6 @@ app.use((0, cookie_parser_1.default)());
 require('./../utils/auth');
 app.set('view engine', 'pug');
 app.set('views', './views');
-console.log(app.locals);
 app.get('/', postsController_1.default.getAllPosts);
 (0, routes_1.routerApi)(app);
 app.use(errorHandler_1.logErrors);

@@ -5,28 +5,27 @@ html(leng="en")
   +head("The amazing blog")
   body
     br
-    .modal-dialog
-      .modal-content
-        // Modal Header
-        .modal-header
-          h4#myModalLabel.modal-title
-            | Signup to "The Amazing Blog"
-        // Modal Body
-        .modal-body
-          form(role='form' method='POST' action='/view/auth/signup')
-            div.form-group
-              label(for='firstname') Firstname:
-              input#firstname.form-control(type='text', placeholder='firstname' name='firstname', required)
-            div.form-group
-              label(for='lastname') Lastname:
-              input#lastname.form-control(type='text', placeholder='lastname' name='lastname', required)
-            div.form-group
-              label(for='username') Username:
-              input#username.form-control(type='text', placeholder='username' name='username', required)
-            div.form-group
-              label(for='email') Email:
-              input#email.form-control(type='email', placeholder='example@example.com' name='email', required)
-            div.form-group
-              label(for='password') Password:
-              input#password.form-control(type='password', placeholder='password' name='password', required)
-            button.btn.btn-primary(type="submit") Submit
+    div(class="pt-4")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h4#myModalLabel.modal-title
+              | Signup to "The Amazing Blog"
+          .modal-body
+            form(role='form' method='POST' action='/view/auth/signup')
+              div.form-group
+                label(for='firstname') Firstname:
+                input#firstname.form-control(type='text', placeholder='firstname' name='firstname', required)
+              div.form-group
+                label(for='lastname') Lastname:
+                input#lastname.form-control(type='text', placeholder='lastname' name='lastname', required)
+              div.form-group
+                label(for='username') Username:
+                input#username.form-control(type='text', placeholder='username' name='username', required)
+              div.form-group
+                label(for='email') Email:
+                input#email.form-control(type='email', placeholder='example@example.com' name='email', required)
+              div.form-group
+                label(for='password') Password:
+                input#password.form-control(type='password', placeholder='password' name='password', required)
+              button.btn.btn-primary(type="submit") Submit

@@ -70,14 +70,11 @@ class UsersController {
         try {
             const user = await prisma.user.delete({
                 where: {
-                    userId: Number(req.params.id)
+                    userId: Number(req.params.id),
                 }
             });
             delete user.password;
-            return res.status(200).json({
-                message: "User deleted",
-                data: user
-            });
+            return res.status(200).redirect('/');
         }
         catch (error) {
             console.log(error);

@@ -14,7 +14,7 @@ model Post {
   content   String?
   published Boolean  @default(false)
   authorId  Int
-  user      User     @relation(fields: [authorId], references: [userId ])
+  user      User     @relation(fields: [authorId], references: [userId ], onDelete: Cascade)
 }
 
 model User {

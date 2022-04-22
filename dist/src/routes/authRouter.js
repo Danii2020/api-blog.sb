@@ -11,4 +11,5 @@ authRouter.get('/signup', authController_1.default.getSignUp);
 authRouter.get('/login', authController_1.default.getLogin);
 authRouter.post('/signup', authController_1.default.signUp);
 authRouter.post('/login', passport_1.default.authenticate('local', { session: false }), authController_1.default.login);
+authRouter.get('/logout', authController_1.default.getLogout);
 exports.default = authRouter;

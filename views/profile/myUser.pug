@@ -26,6 +26,12 @@ html(leng="en")
                     div(class="d-flex pt-3")
                       button(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
                       onclick=`location.href='/view/users/update/${user.userId}'`) Edit profile
+          div(class="d-flex pt-3")
+            a(type="button" class="btn me-1 flex-grow-1 btn-danger"
+            onclick="return confirm('Are you sure you want to delete your account?');"
+            href=`/view/users/delete/${user.userId}`) Delete account
+            a(class="btn me-1 flex-grow-1 btn-danger"
+            href="/view/auth/logout") Logout
 
 
 

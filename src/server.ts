@@ -1,6 +1,5 @@
 const express = require('express');
 import { logErrors, errorHandler, boomErrorHandler } from './middlewares/errorHandler';
-import { NextFunction, Request, Response } from "express";
 import { routerApi } from "./routes";
 import { config } from '../config/config';
 import cookieParser from 'cookie-parser';
@@ -18,8 +17,6 @@ require('./../utils/auth');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-
-console.log(app.locals)
 
 app.get('/', PostsController.getAllPosts);
 

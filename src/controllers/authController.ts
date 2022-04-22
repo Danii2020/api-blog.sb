@@ -59,7 +59,19 @@ class AuthController {
         })
         .redirect("/view/profile/");
     } catch (error) {
-      next(error);
+      next(boom.internal("Server error"));
+    }
+  }
+
+  public static async getLogout(req:Request, res:Response):Promise<any> {
+    try {
+      res.status(200).clearCookie("jwt", {
+        path:"/"
+      });
+      res.redirect("/");
+    } catch (error) {
+      console.log(error);
+      boom.internal("Server error");
     }
   }
 
