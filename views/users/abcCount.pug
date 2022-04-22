@@ -1,0 +1,19 @@
+doctype html
+html(leng="en")
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
+  +head("The amazing blog")
+  br
+  body
+    h1(class="text-center py-5") Count of ABC names
+    div(class="row justify-content-center py-2 m-5")
+      table(class="table table-responsive")
+        thead
+          tr
+            th(class="text-center" scope="col") 'A' names
+            th(class="text-center" scope="col") 'B' names
+            th(class="text-center" scope="col") 'C' names
+          tr
+            td(class="text-center") #{data.aNames}
+            td(class="text-center") #{data.bNames}
+            td(class="text-center") #{data.cNames}

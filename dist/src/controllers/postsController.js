@@ -16,6 +16,7 @@ class PostsController {
                     }
                 }
             });
+            console.log(post);
             return res.render("index", { posts: post });
         }
         catch (error) {

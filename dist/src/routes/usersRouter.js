@@ -11,9 +11,9 @@ const postsController_1 = __importDefault(require("../controllers/postsControlle
 const profileController_1 = __importDefault(require("../controllers/profileController"));
 const usersRouter = express_1.default.Router();
 usersRouter.get('/', usersController_1.default.getAllUsers);
-usersRouter.get('/sortbyalpha', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getSortedUsers);
-usersRouter.get('/abcnames', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCNames);
-usersRouter.get('/countabc', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCCount);
+usersRouter.get('/sortbyalpha', usersController_1.default.getSortedUsers);
+usersRouter.get('/abcnames', usersController_1.default.getABCNames);
+usersRouter.get('/countabc', usersController_1.default.getABCCount);
 usersRouter.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getOneUser);
 usersRouter.get('/:id/posts', postsController_1.default.getPostsByUser);
 usersRouter.get('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), profileController_1.default.getNewProfile);

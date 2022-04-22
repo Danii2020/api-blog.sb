@@ -1,0 +1,10 @@
+doctype html
+html(leng="en")
+  include ../layouts/head.pug
+  include ../layouts/navbar.pug
+  +head("The amazing blog")
+  br
+  body
+    h1(class="text-center py-5") Users sorted by name
+    each user in users
+      include ../layouts/profile.pug

@@ -9,14 +9,11 @@ const usersRouter = express.Router()
 
 usersRouter.get('/', UsersController.getAllUsers);
 
-usersRouter.get('/sortbyalpha', passport.authenticate('jwt', {session: false}),
-checkRoles("admin", "user"), UsersController.getSortedUsers);
+usersRouter.get('/sortbyalpha', UsersController.getSortedUsers);
 
-usersRouter.get('/abcnames', passport.authenticate('jwt', {session: false}),
-checkRoles("admin", "user"), UsersController.getABCNames);
+usersRouter.get('/abcnames', UsersController.getABCNames);
 
-usersRouter.get('/countabc', passport.authenticate('jwt', {session: false}),
-checkRoles("admin", "user"), UsersController.getABCCount);
+usersRouter.get('/countabc', UsersController.getABCCount);
 
 usersRouter.get('/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), UsersController.getOneUser);

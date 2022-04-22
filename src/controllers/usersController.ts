@@ -92,11 +92,11 @@ class UsersController {
       });
       const upperUsers = orderedUsers.map(user => ({
         firstname:user.firstname,
-        lastname:user.lastname.toUpperCase()
+        lastname:user.lastname.toUpperCase(),
+        username:user.username,
+        email:user.email
       }));
-      return res.status(200).json({
-        data:upperUsers
-      });
+      return res.status(200).render("users/sortedUsers", {users:upperUsers});
 
     } catch (error) {
       console.log(error);
@@ -110,9 +110,7 @@ class UsersController {
       if (!abcNames){
         next(boom.notFound("Users not found"));
       }
-      return res.status(200).json({
-        data:abcNames
-      });
+      return res.status(200).render("users/sortedUsers", {users:abcNames});
     } catch (error) {
       console.log(error);
       next(boom.internal("Server error"));
@@ -125,9 +123,7 @@ class UsersController {
       if (!abcCount){
         next(boom.notFound("Users not found"));
       }
-      return res.status(200).json({
-        data:abcCount
-      });
+      return res.status(200).render("users/abcCount", {data:abcCount})
     } catch (error) {
       console.log(error);
       next(boom.internal("Server error"));
