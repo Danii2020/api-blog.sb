@@ -11,4 +11,5 @@ profileRouter.get('/my-posts', passport.authenticate('jwt', {session: false}), P
 
 profileRouter.get('/new-post', passport.authenticate('jwt', {session: false}), ProfileController.getNewPost);
 
+
 export default profileRouter;

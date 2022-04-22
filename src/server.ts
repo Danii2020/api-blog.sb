@@ -5,7 +5,6 @@ import { routerApi } from "./routes";
 import { config } from '../config/config';
 import cookieParser from 'cookie-parser';
 import PostsController from './controllers/postsController';
-import { deletePost, hello } from '../views/helpers/viewHelpers';
 
 const app = express();
 
@@ -19,8 +18,6 @@ require('./../utils/auth');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
-
-app.locals.deletepost = deletePost;
 
 console.log(app.locals)
 

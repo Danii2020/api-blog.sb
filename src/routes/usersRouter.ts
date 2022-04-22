@@ -4,6 +4,7 @@ import UsersController from '../controllers/usersController'
 import { checkRoles } from "../middlewares/authHandler";
 import passport from "passport";
 import PostsController from "../controllers/postsController";
+import ProfileController from "../controllers/profileController";
 const usersRouter = express.Router()
 
 usersRouter.get('/', passport.authenticate('jwt', {session: false}),
@@ -25,7 +26,10 @@ checkRoles("admin", "user"), UsersController.getOneUser);
 usersRouter.get('/:id/posts', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.getPostsByUser);
 
-usersRouter.patch('/:id', passport.authenticate('jwt', {session: false}),
+usersRouter.get('/update/:id', passport.authenticate('jwt', {session: false}),
+checkRoles("admin", "user"), ProfileController.getNewProfile);
+
+usersRouter.post('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.patchUser);
 
 usersRouter.delete('/:id', passport.authenticate('jwt', {session: false}),

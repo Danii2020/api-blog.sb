@@ -13,7 +13,7 @@ div(class="container py-2")
                 p(class="mb-2 pb-1" style="color: #2b2a2a;")=user.username
                 p(class="small text-muted mb-1")=user.email
                 div(class="d-flex pt-5")
-                  button(id="post-button" type="button" class="btn btn-outline-primary me-1 flex-grow-1" onclick=`location.href='${postUrl}'`) Posts
+                  button(class=`post-button${user.userId}` type="button" class="btn btn-outline-primary me-1 flex-grow-1" onclick=`location.href='${postUrl}'`) Posts
 
 
 

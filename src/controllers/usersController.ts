@@ -36,7 +36,7 @@ class UsersController {
       delete user.password;
       delete user.role;
       console.log(user);
-      return res.status(200).render("users/userProfile", {user:user, postUrl:`/view/users/${user.userId}/posts`});
+      return res.status(200).render("users/userProfile", {user:user});
     } catch (error) {
       console.log(error);
       next(boom.internal("Server error"));
@@ -58,10 +58,7 @@ class UsersController {
         }
       });
       delete updatedUser.password;
-      return res.status(201).json({
-        message:"User updated",
-        data:updatedUser
-      })
+      return res.status(201).redirect('/view/profile/');
     } catch (error) {
       console.log(error);
       next(boom.notFound("User not found"));
