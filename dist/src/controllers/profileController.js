@@ -4,20 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const usersService_1 = __importDefault(require("../services/usersService"));
+const postService_1 = __importDefault(require("../services/postService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
+const userService = new usersService_1.default();
+const postService = new postService_1.default();
 class ProfileController {
     static async getPosts(req, res) {
-        console.log(req.user);
         try {
             const user = req.user;
-            const posts = await prisma.post.findMany({
-                where: {
-                    user: {
-                        userId: user?.sub
-                    }
-                }
-            });
+            const posts = await postService.getPostsByUser(user.sub);
             return res.render("profile/myPosts", { posts: posts });
         }
         catch (error) {
@@ -49,16 +46,11 @@ class ProfileController {
     }
     static async getNewProfile(req, res, next) {
         try {
-            const user = await prisma.user.findUnique({
-                where: {
-                    userId: Number(req.params.id)
-                }
-            });
+            const id = Number(req.params.id);
+            const user = await userService.getOneUser(id);
             if (!user) {
                 next(boom_1.default.notFound("User not found"));
             }
-            delete user.password;
-            delete user.role;
             return res.status(200).render("profile/updateProfile", { user: user });
         }
         catch (error) {

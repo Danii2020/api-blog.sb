@@ -6,5 +6,7 @@ html(leng="en")
   br
   body
     h1(class="text-center py-5") Users sorted by name
+    if users.length === 0
+      p(id="description" class="text-center ") The are not users yet
     each user in users
       include ../layouts/profile.pug

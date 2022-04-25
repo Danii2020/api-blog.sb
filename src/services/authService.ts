@@ -2,17 +2,35 @@
 import { compareHash } from '../../utils/auth/hash/hash';
 import boom from '@hapi/boom';
 import UserService from './usersService';
-import { IUser } from '../models/interfaces';
+import { IUser } from '../models/userInterface';
 import jwt from 'jsonwebtoken';
 import { config } from '../../config/config';
+import IAuthService from '../models/authInterface';
+import { User } from '@prisma/client';
+import argon2 from 'argon2';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+const userService = new UserService()
 
 const jwtConfig = {
   expiresIn:'5d'
 }
 
-class AuthService {
-  public static async getUser(email:string, password:string):Promise<IUser> {
-    const user = <IUser> await UserService.findByEmail(email);
+class AuthService implements IAuthService{
+  async signUp(body: User)  {
+    const hash = await argon2.hash(body.password as string, {type: argon2.argon2id});
+    const newUser = await prisma.user.create({
+      data: {
+        ...body,
+        role:body.role || "user",
+        password:hash
+      }
+    });
+    return newUser;
+  }
+  async getUser(email:string, password:string) {
+    const user = await userService.getUserByEmail(email);
     if (!user) {
       throw boom.unauthorized("Your crendentials are bad.");
     }
@@ -20,11 +38,10 @@ class AuthService {
     if (!isMatch) {
       throw boom.unauthorized("Your crendentials are bad.");
     }
-    delete user?.password;
     return user;
   }
 
-  public static signToken(user:IUser):string {
+  signToken(user:IUser):string {
       const payload = {
         sub: user.userId,
         role: user.role

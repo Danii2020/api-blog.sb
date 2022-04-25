@@ -1,21 +1,16 @@
 import { PrismaClient } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
-import { IPost, IUser, IUserReq } from '../models/interfaces';
+import { IUser, IUserReq } from '../models/userInterface';
+import PostService from '../services/postService';
 import boom from '@hapi/boom';
 
 const prisma = new PrismaClient();
+const postService = new PostService();
 
 class PostsController {
-  public static async getAllPosts(req:Request, res:Response, next:NextFunction):Promise<any> {
+  public static async getAllPosts(req:Request, res:Response, next:NextFunction) {
     try {
-      const post = <Array<IPost>> await prisma.post.findMany({
-        include: {
-          user: {
-            select:{userId:true, username:true}
-          }
-        }
-      });
-      console.log(post)
+      const post = await postService.getAllPosts();
       return res.render("index", {posts:post});
     } catch (error) {
       console.log(error);
@@ -23,18 +18,10 @@ class PostsController {
     }
   }
 
-  public static async getOnePost(req:Request, res:Response, next:NextFunction):Promise<any> {
+  public static async getOnePost(req:Request, res:Response, next:NextFunction) {
     try {
-      const post = <IPost> await prisma.post.findUnique({
-        where: {
-          postId:Number(req.params.id)
-        },
-        include: {
-          user: {
-            select: {username:true}
-        }
-      }
-      });
+      const id:number = Number(req.params.id);
+      const post = await postService.getOnePost(id);
       if (!post) {
         next(boom.notFound("Post not found"));
       }
@@ -46,23 +33,15 @@ class PostsController {
   }
 
   public static async getPostsByUser(req:Request, res:Response, next:NextFunction):Promise<any> {
-    console.log(req.params.id)
     try {
-      const post = <Array<IPost>> await prisma.post.findMany({
-        where: {
-          authorId:Number(req.params.id)
-        },
-        include: {
-          user: {
-            select: {firstname:true}
-          }
-        }
-      });
-      if (post.length === 0) {
+      const userReq = req.user;
+      console.log(userReq)
+      const id:number = Number(req.params.id);
+      const posts = await postService.getPostsByUser(id);
+      if (posts.length === 0) {
         next(boom.notFound("Post not found"));
       }
-      console.log(post);
-      return res.status(200).render("posts/userPost", {posts:post});
+      return res.status(200).render("posts/userPost", {posts:posts, userReq:userReq});
     } catch (error) {
       console.log(error);
       next(boom.internal("Internal server error"));
@@ -71,7 +50,8 @@ class PostsController {
 
   public static async postPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
-      const userReq= <IUserReq >req.user
+      const body = req.body;
+      const userReq= <IUserReq> req.user
       const user = <IUser> await prisma.user.findUnique({
         where: {
           userId:userReq.sub
@@ -80,15 +60,7 @@ class PostsController {
       if (!user) {
         next(boom.notFound("User not found"));
       }
-      const newPost = <IPost> await prisma.post.create({
-        data: {
-          title:req.body.title,
-          content:req.body.content,
-          user: {
-            connect: {userId: user.userId}
-          }
-        }
-      });
+      const newPost = await postService.createPost(body, user);
       return res.status(200).redirect("/view/profile/my-posts");
     } catch (error) {
       console.log(error);
@@ -98,15 +70,9 @@ class PostsController {
 
   public static async patchPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
-      const updatedPost = <IPost> await prisma.post.update({
-        where : {
-          postId:Number(req.params.id)
-        },
-        data : {
-          title:req.body.title,
-          content:req.body.content
-        }
-      });
+      const id:number = Number(req.params.id);
+      const body = req.body;
+      const updatedPost = await postService.patchPost(id, body);
       return res.status(201).redirect('/view/profile/my-posts');
     } catch (error) {
       console.log(error);
@@ -116,12 +82,8 @@ class PostsController {
 
   public static async deletePost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
-      const post = <IPost> await prisma.post.delete({
-        where: {
-          postId: Number(req.params.id)
-        }
-      });
-      console.log(post)
+      const id:number = Number(req.params.id);
+      const post = await postService.deletePost(id);
       return res.status(200).redirect('/view/profile/my-posts');
     } catch (error) {
       console.log(error);

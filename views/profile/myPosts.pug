@@ -14,8 +14,8 @@ html(leng="en")
             p(class="card-text")=post.content
             div(class="d-flex pt-4")
               button(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
-              onclick=`location.href='/view/posts/update/${post.postId}'`) Edit posts
-              a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
+              onclick=`location.href='/view/posts/update/${post.postId}'`) Edit post
+              a(type="button" class="btn me-1 flex-grow-1 btn-danger"
               onclick="return confirm('Are you sure you want to delete this post?');"
               href=`/view/posts/delete/${post.postId}`) Delete post
             br

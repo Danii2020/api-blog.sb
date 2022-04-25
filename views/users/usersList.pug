@@ -2,27 +2,31 @@ doctype html
 html(leng="en")
   include ../layouts/head.pug
   include ../layouts/navbar.pug
+
   +head("The amazing blog")
   br
   body
     h1(class="text-center py-5") List of users
-    each user in users
-      div(class="container py-2")
-        div(class="row d-flex justify-content-center align-items-center")
-          div(class="col col-md-9 col-lg-7 col-xl-5")
-            div(class="card" style="border-radius: 15px;")
-              div(class="card-body p-4")
-                div(class="d-flex text-black")
-                  div(class="flex-shrink-0")
-                    img(src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 10px;")
-                  div(class="flex-grow-1 ms-3")
-                    h5(class="mb-1") #{user.firstname} #{user.lastname}
-                    p(class="mb-2 pb-1" style="color: #2b2a2a;")=user.username
-                    p(class="small text-muted mb-1")=user.email
-                    div(class="d-flex pt-5")
-                      a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
-                      href=`/view/users/${user.userId}/posts`) Posts
+    if userReq.role === 'user'
+      each user in users
+          include ../layouts/profile.pug
+            div(class="d-flex pt-5")
+              a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
+              href=`/view/users/${user.userId}/posts`) Posts
+    else if userReq.role === 'admin'
+      each user in users
+        include ../layouts/profile.pug
+          div(class="d-flex pt-2")
+            a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
+            href=`/view/users/${user.userId}/posts`) Posts
+          div(class="d-flex pt-2")
+            a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
+            href=`/view/users/update/${user.userId}`) Update user
+          div(class="d-flex pt-2")
+            a(type="button" onclick="return confirm('Are you sure you want to delete your account?');"
+            class="btn me-1 flex-grow-1 btn-danger"
+            href=`/view/users/delete/${user.userId}`) Delete user
+
     div(class="d-flex pt-5 justify-content-center align-items-center")
       a(type="button" class="btn btn-primary m-3"
       href='/view/users/sortbyalpha') Show sorted Users

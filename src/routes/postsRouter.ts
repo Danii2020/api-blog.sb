@@ -8,7 +8,8 @@ const postsRouter = express.Router()
 
 postsRouter.get('/', PostsController.getAllPosts);
 
-postsRouter.get('/update/:id', PostsController.getOnePost);
+postsRouter.get('/update/:id', passport.authenticate('jwt', {session: false}),
+checkRoles("admin", "user"), PostsController.getOnePost);
 
 postsRouter.post('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.postPost);

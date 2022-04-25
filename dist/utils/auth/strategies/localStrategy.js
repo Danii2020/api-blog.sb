@@ -6,12 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalStrategy = void 0;
 const passport_local_1 = require("passport-local");
 const authService_1 = __importDefault(require("../../../src/services/authService"));
+const authService = new authService_1.default();
 const LocalStrategy = new passport_local_1.Strategy({
     usernameField: "email",
     passwordField: "password"
 }, async (email, password, done) => {
     try {
-        const user = await authService_1.default.getUser(email, password);
+        const user = await authService.getUser(email, password);
         done(null, user);
     }
     catch (error) {

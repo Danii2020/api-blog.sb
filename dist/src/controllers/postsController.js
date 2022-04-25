@@ -4,19 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const postService_1 = __importDefault(require("../services/postService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
+const postService = new postService_1.default();
 class PostsController {
     static async getAllPosts(req, res, next) {
         try {
-            const post = await prisma.post.findMany({
-                include: {
-                    user: {
-                        select: { userId: true, username: true }
-                    }
-                }
-            });
-            console.log(post);
+            const post = await postService.getAllPosts();
             return res.render("index", { posts: post });
         }
         catch (error) {
@@ -26,16 +21,8 @@ class PostsController {
     }
     static async getOnePost(req, res, next) {
         try {
-            const post = await prisma.post.findUnique({
-                where: {
-                    postId: Number(req.params.id)
-                },
-                include: {
-                    user: {
-                        select: { username: true }
-                    }
-                }
-            });
+            const id = Number(req.params.id);
+            const post = await postService.getOnePost(id);
             if (!post) {
                 next(boom_1.default.notFound("Post not found"));
             }
@@ -47,23 +34,15 @@ class PostsController {
         }
     }
     static async getPostsByUser(req, res, next) {
-        console.log(req.params.id);
         try {
-            const post = await prisma.post.findMany({
-                where: {
-                    authorId: Number(req.params.id)
-                },
-                include: {
-                    user: {
-                        select: { firstname: true }
-                    }
-                }
-            });
-            if (post.length === 0) {
+            const userReq = req.user;
+            console.log(userReq);
+            const id = Number(req.params.id);
+            const posts = await postService.getPostsByUser(id);
+            if (posts.length === 0) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            console.log(post);
-            return res.status(200).render("posts/userPost", { posts: post });
+            return res.status(200).render("posts/userPost", { posts: posts, userReq: userReq });
         }
         catch (error) {
             console.log(error);
@@ -72,6 +51,7 @@ class PostsController {
     }
     static async postPost(req, res, next) {
         try {
+            const body = req.body;
             const userReq = req.user;
             const user = await prisma.user.findUnique({
                 where: {
@@ -81,15 +61,7 @@ class PostsController {
             if (!user) {
                 next(boom_1.default.notFound("User not found"));
             }
-            const newPost = await prisma.post.create({
-                data: {
-                    title: req.body.title,
-                    content: req.body.content,
-                    user: {
-                        connect: { userId: user.userId }
-                    }
-                }
-            });
+            const newPost = await postService.createPost(body, user);
             return res.status(200).redirect("/view/profile/my-posts");
         }
         catch (error) {
@@ -99,15 +71,9 @@ class PostsController {
     }
     static async patchPost(req, res, next) {
         try {
-            const updatedPost = await prisma.post.update({
-                where: {
-                    postId: Number(req.params.id)
-                },
-                data: {
-                    title: req.body.title,
-                    content: req.body.content
-                }
-            });
+            const id = Number(req.params.id);
+            const body = req.body;
+            const updatedPost = await postService.patchPost(id, body);
             return res.status(201).redirect('/view/profile/my-posts');
         }
         catch (error) {
@@ -117,12 +83,8 @@ class PostsController {
     }
     static async deletePost(req, res, next) {
         try {
-            const post = await prisma.post.delete({
-                where: {
-                    postId: Number(req.params.id)
-                }
-            });
-            console.log(post);
+            const id = Number(req.params.id);
+            const post = await postService.deletePost(id);
             return res.status(200).redirect('/view/profile/my-posts');
         }
         catch (error) {

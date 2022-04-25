@@ -1,27 +1,23 @@
 import { PrismaClient } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
+import { IUserReq } from '../models/userInterface';
+import UserService from '../services/usersService';
+import PostService from '../services/postService';
 import boom from '@hapi/boom';
-import { IPost, IUser, IUserReq } from '../models/interfaces';
 
 const prisma = new PrismaClient();
+const userService = new UserService();
+const postService = new PostService()
 
 class ProfileController {
   public static async getPosts(req:Request, res:Response):Promise<any> {
-    console.log(req.user);
     try {
       const user = <IUserReq> req.user;
-      const posts = <IPost> <unknown> await prisma.post.findMany({
-        where: {
-          user: {
-            userId:user?.sub
-          }
-        }
-      });
+      const posts = await postService.getPostsByUser(user.sub);
       return res.render("profile/myPosts", {posts:posts});
     } catch (error) {
       boom.internal("Server error");
     }
-
   }
 
   public static async getNewPost(req:Request, res:Response, next:NextFunction):Promise<any> {
@@ -48,24 +44,17 @@ class ProfileController {
   }
   public static async getNewProfile(req: Request, res: Response, next:NextFunction) {
     try {
-      const user = <IUser> await prisma.user.findUnique({
-        where: {
-          userId:Number(req.params.id)
-        }
-      });
+      const id:number = Number(req.params.id);
+      const user = await userService.getOneUser(id);
       if (!user) {
         next(boom.notFound("User not found"));
       }
-      delete user.password;
-      delete user.role;
       return res.status(200).render("profile/updateProfile", {user:user});
     } catch (error) {
       console.log(error);
       next(boom.internal("Server error"));
     }
   }
-
-
 }
 
 export default ProfileController;

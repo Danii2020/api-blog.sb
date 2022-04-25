@@ -19,11 +19,11 @@ model Post {
 
 model User {
   userId      Int      @id @default(autoincrement())
-  firstname    String?  @db.VarChar(255)
-  lastname String? @db.VarChar(255)
+  firstname    String  @db.VarChar(255)
+  lastname String @db.VarChar(255)
   username String  @unique @db.VarChar(255)
   email   String   @unique @db.VarChar(255)
-  password String  @db.VarChar(255)
+  password String?  @db.VarChar(255)
   role     String  @db.VarChar(255)
   posts    Post[]
 }
