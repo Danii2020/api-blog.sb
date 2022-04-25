@@ -1,7 +1,7 @@
 import boom from "@hapi/boom";
 import { NextFunction, Request, Response } from "express";
 import { config } from "../../config/config";
-import { IUser } from "../models/interfaces";
+import { IUser } from "../models/userInterface";
 
 const checkRoles = (...roles:Array<string>) => {
   return (req:Request, res:Response, next:NextFunction) => {

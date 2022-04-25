@@ -7,14 +7,10 @@ html(leng="en")
     h1(class="text-center py-5") #{posts[0].user.firstname}'s posts
     if userReq.role === 'user'
       each post in posts
-        include ../layouts/posts.pug
+        include ../layouts/posts/posts.pug
     else if userReq.role === 'admin'
       each post in posts
-        include ../layouts/posts.pug
-          div(class="d-flex pt-4")
-            button(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
-            onclick=`location.href='/view/posts/update/${post.postId}'`) Edit post
-            a(type="button" class="btn me-1 flex-grow-1 btn-danger"
-            onclick="return confirm('Are you sure you want to delete this post?');"
-            href=`/view/posts/delete/${post.postId}`) Delete post
-
+        include ../layouts/posts/posts.pug
+          div(class="d-flex pt-3")
+            include ../layouts/posts/updatePostButton.pug
+            include ../layouts/posts/deletePostButton.pug

@@ -4,6 +4,7 @@ import { routerApi } from "./routes";
 import { config } from '../config/config';
 import cookieParser from 'cookie-parser';
 import PostsController from './controllers/postsController';
+import methodOverride from 'method-override';
 
 const app = express();
 
@@ -17,6 +18,7 @@ require('./../utils/auth');
 
 app.set('view engine', 'pug');
 app.set('views', './views');
+app.use(methodOverride('_method'));
 
 app.get('/', PostsController.getAllPosts);
 

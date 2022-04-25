@@ -37,6 +37,9 @@ class UsersController {
     }
     static async patchUser(req, res, next) {
         try {
+            if ('_method' in req.body) {
+                delete req.body._method;
+            }
             const id = Number(req.params.id);
             const changes = req.body;
             const updatedUser = await userService.patchUser(id, changes);

@@ -6,19 +6,4 @@ html(leng="en")
   br
   body
     br
-    div(class="pt-4")
-      .modal-dialog
-        .modal-content
-          .modal-header
-            h4#myModalLabel.modal-title
-              | Update your post
-          .modal-body
-            form(role='form' method='POST' action=`/view/posts/update/${post.postId}`)
-              div.form-group
-                label(for='title') Title:
-                input#content.form-control(type='text', value=post.title name='title')
-              div.form-group
-                label(for='content') Content:
-                input#content.form-control(type='text', value=post.content name='content')
-              button.btn.btn-primary(type="submit" onclick="alert('Posts updated!')") Submit
-
+    include ../layouts/posts/updatePostForm.pug

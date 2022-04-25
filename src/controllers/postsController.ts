@@ -70,6 +70,9 @@ class PostsController {
 
   public static async patchPost(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
+      if ('_method' in req.body) {
+        delete req.body._method;
+      }
       const id:number = Number(req.params.id);
       const body = req.body;
       const updatedPost = await postService.patchPost(id, body);

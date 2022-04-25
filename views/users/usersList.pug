@@ -9,23 +9,19 @@ html(leng="en")
     h1(class="text-center py-5") List of users
     if userReq.role === 'user'
       each user in users
-          include ../layouts/profile.pug
+          include ../layouts/profile/profile.pug
             div(class="d-flex pt-5")
               a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
               href=`/view/users/${user.userId}/posts`) Posts
     else if userReq.role === 'admin'
       each user in users
-        include ../layouts/profile.pug
+        include ../layouts/profile/profile.pug
           div(class="d-flex pt-2")
             a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
             href=`/view/users/${user.userId}/posts`) Posts
           div(class="d-flex pt-2")
-            a(type="button" class="btn btn-outline-primary me-1 flex-grow-1"
-            href=`/view/users/update/${user.userId}`) Update user
-          div(class="d-flex pt-2")
-            a(type="button" onclick="return confirm('Are you sure you want to delete your account?');"
-            class="btn me-1 flex-grow-1 btn-danger"
-            href=`/view/users/delete/${user.userId}`) Delete user
+            include ../layouts/users/updateUserButton.pug
+            include ../layouts/users/deleteUserButton.pug
 
     div(class="d-flex pt-5 justify-content-center align-items-center")
       a(type="button" class="btn btn-primary m-3"

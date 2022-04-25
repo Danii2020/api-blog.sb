@@ -14,10 +14,10 @@ checkRoles("admin", "user"), PostsController.getOnePost);
 postsRouter.post('/', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.postPost);
 
-postsRouter.post('/update/:id', passport.authenticate('jwt', {session: false}),
+postsRouter.patch('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.patchPost);
 
-postsRouter.get('/delete/:id', passport.authenticate('jwt', {session: false}),
+postsRouter.delete('/delete/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.deletePost);
 
 export default postsRouter;
