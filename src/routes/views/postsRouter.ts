@@ -1,7 +1,7 @@
 
 import express  from "express";
-import PostsController from '../controllers/postsController';
-import { checkRoles } from "../middlewares/authHandler";
+import PostsController from './../../controllers/views/postsController';
+import { checkRoles } from "../../middlewares/authHandler";
 import passport from "passport";
 
 const postsRouter = express.Router()

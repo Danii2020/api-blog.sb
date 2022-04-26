@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
-import { IUserReq } from '../models/userInterface';
-import UserService from '../services/usersService';
-import PostService from '../services/postService';
+import { IUserReq } from '../../models/userInterface';
+import UserService from './../../services/usersService';
+import PostService from './../../services/postService';
 import boom from '@hapi/boom';
 
 const prisma = new PrismaClient();
@@ -10,13 +10,13 @@ const userService = new UserService();
 const postService = new PostService()
 
 class ProfileController {
-  public static async getPosts(req:Request, res:Response):Promise<any> {
+  public static async getPosts(req:Request, res:Response, next:NextFunction):Promise<any> {
     try {
       const user = <IUserReq> req.user;
       const posts = await postService.getPostsByUser(user.sub);
       return res.render("profile/myPosts", {posts:posts});
     } catch (error) {
-      boom.internal("Server error");
+      next(boom.internal("Internar server error"));
     }
   }
 

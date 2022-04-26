@@ -1,11 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import AuthService from '../services/authService';
-import { IUser } from '../models/userInterface';
-import { PrismaClient } from '@prisma/client';
+import AuthService from './../../services/authService';
+import { IUser } from '../../models/userInterface';
 import boom from '@hapi/boom';
-import argon2 from 'argon2';
 
-const prisma = new PrismaClient();
 const authService = new AuthService()
 
 class AuthController {

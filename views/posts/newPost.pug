@@ -3,7 +3,8 @@ html(leng="en")
   include ../layouts/head.pug
   include ../layouts/navbar.pug
   +head("The amazing blog")
+  br
   body
     br
     include ../layouts/posts/newPostForm.pug
-    +form('/view/posts')
+    +form(`/view/users/${userId}/posts`)

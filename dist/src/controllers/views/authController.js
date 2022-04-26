@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const authService_1 = __importDefault(require("../services/authService"));
+const authService_1 = __importDefault(require("./../../services/authService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const authService = new authService_1.default();
 class AuthController {

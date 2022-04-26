@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const postService_1 = __importDefault(require("../services/postService"));
+const postService_1 = __importDefault(require("./../../services/postService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
 const postService = new postService_1.default();
@@ -12,7 +12,9 @@ class PostsController {
     static async getAllPosts(req, res, next) {
         try {
             const posts = await postService.getAllPosts();
-            return res.render("index", { posts: posts });
+            return res.status(200).json({
+                data: posts
+            });
         }
         catch (error) {
             console.log(error);
@@ -26,7 +28,9 @@ class PostsController {
             if (!post) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            return res.status(200).render("posts/updatePost", { post: post });
+            return res.status(200).json({
+                data: post
+            });
         }
         catch (error) {
             console.log(error);
@@ -42,7 +46,9 @@ class PostsController {
             if (posts.length === 0) {
                 next(boom_1.default.notFound("Post not found"));
             }
-            return res.status(200).render("posts/userPost", { posts: posts, userReq: userReq });
+            return res.status(200).json({
+                data: posts
+            });
         }
         catch (error) {
             console.log(error);
@@ -62,7 +68,10 @@ class PostsController {
                 next(boom_1.default.notFound("User not found"));
             }
             const newPost = await postService.createPost(body, user);
-            return res.status(200).redirect("/view/profile/my-posts");
+            return res.status(200).json({
+                message: "Post created",
+                data: newPost
+            });
         }
         catch (error) {
             console.log(error);
@@ -77,7 +86,10 @@ class PostsController {
             const id = Number(req.params.id);
             const body = req.body;
             const updatedPost = await postService.patchPost(id, body);
-            return res.status(201).redirect('/view/profile/my-posts');
+            return res.status(201).json({
+                message: "Post updated",
+                data: updatedPost
+            });
         }
         catch (error) {
             console.log(error);
@@ -88,7 +100,10 @@ class PostsController {
         try {
             const id = Number(req.params.id);
             const post = await postService.deletePost(id);
-            return res.status(200).redirect('/view/profile/my-posts');
+            return res.status(200).json({
+                message: "Post deleted",
+                data: post
+            });
         }
         catch (error) {
             console.log(error);

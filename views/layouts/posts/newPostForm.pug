@@ -1,0 +1,16 @@
+mixin form(action)
+  div(class="pt-4")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4#myModalLabel.modal-title
+            | Create a new post
+        .modal-body
+          form(role='form' method='POST' action=action)
+            div.form-group
+              label(for='title') Title:
+              input#content.form-control(type='text', placeholder="Post's title" name='title', required)
+            div.form-group
+              label(for='content') Content:
+              input#content.form-control(type='text', placeholder="Post's content" name='content', required)
+            button.btn.btn-primary(type="submit" onclick="alert('Post created')") Submit

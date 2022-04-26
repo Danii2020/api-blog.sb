@@ -5,18 +5,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.routerApi = void 0;
 const express_1 = __importDefault(require("express"));
-const usersRouter_1 = __importDefault(require("./usersRouter"));
-const postsRouter_1 = __importDefault(require("./postsRouter"));
-const authRouter_1 = __importDefault(require("./authRouter"));
-const profileRouter_1 = __importDefault(require("./profileRouter"));
+const usersRouter_1 = __importDefault(require("./views/usersRouter"));
+const postsRouter_1 = __importDefault(require("./views/postsRouter"));
+const authRouter_1 = __importDefault(require("./views/authRouter"));
+const profileRouter_1 = __importDefault(require("./views/profileRouter"));
+const usersRouter_2 = __importDefault(require("./API/usersRouter"));
+const postsRouter_2 = __importDefault(require("./API/postsRouter"));
+const authRouter_2 = __importDefault(require("./API/authRouter"));
+const profileRouter_2 = __importDefault(require("./views/profileRouter"));
 const routerApi = (app) => {
-    const router = express_1.default.Router();
-    //const routerView = express.Router()
-    //app.use('/api/v1', router);
-    app.use('/view', router);
-    router.use('/users', usersRouter_1.default);
-    router.use('/posts', postsRouter_1.default);
-    router.use('/auth', authRouter_1.default);
-    router.use('/profile', profileRouter_1.default);
+    const routerApi = express_1.default.Router();
+    const routerView = express_1.default.Router();
+    app.use('/api/v1', routerApi);
+    app.use('/view', routerView);
+    routerView.use('/users', usersRouter_1.default);
+    routerView.use('/posts', postsRouter_1.default);
+    routerView.use('/auth', authRouter_1.default);
+    routerView.use('/profile', profileRouter_1.default);
+    routerApi.use('/users', usersRouter_2.default);
+    routerApi.use('/posts', postsRouter_2.default);
+    routerApi.use('/auth', authRouter_2.default);
+    routerApi.use('/profile', profileRouter_2.default);
 };
 exports.routerApi = routerApi;

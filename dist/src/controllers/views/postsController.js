@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const postService_1 = __importDefault(require("../services/postService"));
+const postService_1 = __importDefault(require("./../../services/postService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
 const postService = new postService_1.default();
@@ -39,13 +39,18 @@ class PostsController {
             console.log(userReq);
             const id = Number(req.params.id);
             const posts = await postService.getPostsByUser(id);
-            if (posts.length === 0) {
-                next(boom_1.default.notFound("Post not found"));
-            }
-            return res.status(200).render("posts/userPost", { posts: posts, userReq: userReq });
+            return res.status(200).render("posts/userPost", { posts: posts, userReq: userReq, userId: id });
         }
         catch (error) {
             console.log(error);
+            next(boom_1.default.internal("Internal server error"));
+        }
+    }
+    static async getNewPost(req, res, next) {
+        try {
+            res.render("posts/newPost", { userId: req.params.id });
+        }
+        catch (error) {
             next(boom_1.default.internal("Internal server error"));
         }
     }
@@ -56,6 +61,26 @@ class PostsController {
             const user = await prisma.user.findUnique({
                 where: {
                     userId: userReq.sub
+                }
+            });
+            if (!user) {
+                next(boom_1.default.notFound("User not found"));
+            }
+            const newPost = await postService.createPost(body, user);
+            return res.status(200).redirect("/view/profile/my-posts");
+        }
+        catch (error) {
+            console.log(error);
+            next(boom_1.default.internal("Internal server error"));
+        }
+    }
+    static async postPostByUser(req, res, next) {
+        try {
+            const body = req.body;
+            const userId = Number(req.params.id);
+            const user = await prisma.user.findUnique({
+                where: {
+                    userId: userId
                 }
             });
             if (!user) {

@@ -3,6 +3,7 @@ import AuthService from "../../../src/services/authService";
 import { VerifiedCallback } from "passport-jwt";
 
 const authService = new AuthService()
+
 const LocalStrategy = new Strategy({
   usernameField:"email",
   passwordField: "password"

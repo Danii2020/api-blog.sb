@@ -13,7 +13,6 @@ html(leng="en")
           include ../layouts/posts/deletePostButton.pug
         br
       br
-    div(class="d-flex justify-content-center pt-3")
-      button.btn.btn-primary(class="d-flex justify-content-center" type='button'
-      onclick="location.href='/view/profile/new-post'") New Post
+    include ../layouts/posts/newPostButton.pug
+    +button("location.href='/view/profile/new-post'")
 

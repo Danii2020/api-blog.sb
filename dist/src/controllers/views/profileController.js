@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
-const usersService_1 = __importDefault(require("../services/usersService"));
-const postService_1 = __importDefault(require("../services/postService"));
+const usersService_1 = __importDefault(require("./../../services/usersService"));
+const postService_1 = __importDefault(require("./../../services/postService"));
 const boom_1 = __importDefault(require("@hapi/boom"));
 const prisma = new client_1.PrismaClient();
 const userService = new usersService_1.default();

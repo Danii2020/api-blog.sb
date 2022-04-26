@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const boom_1 = __importDefault(require("@hapi/boom"));
-const usersService_1 = __importDefault(require("../services/usersService"));
+const usersService_1 = __importDefault(require("./../../services/usersService"));
 const userService = new usersService_1.default();
 class UsersController {
     static async getAllUsers(req, res, next) {
@@ -12,6 +12,7 @@ class UsersController {
             const userReq = req.user;
             console.log(userReq);
             const users = await userService.getAllUsers();
+            users.map(user => (delete user.password, delete user.role));
             return res.status(200).render("users/usersList", { users: users, userReq: userReq });
         }
         catch (error) {
@@ -26,6 +27,8 @@ class UsersController {
             if (!user) {
                 next(boom_1.default.notFound("User not found"));
             }
+            delete user.role;
+            delete user.password;
             return res.status(200).render("users/userProfile", { user: user });
         }
         catch (error) {

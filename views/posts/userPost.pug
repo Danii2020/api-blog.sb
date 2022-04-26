@@ -4,13 +4,23 @@ html(leng="en")
   +head("The amazing blog")
   br
   body
-    h1(class="text-center py-5") #{posts[0].user.firstname}'s posts
-    if userReq.role === 'user'
-      each post in posts
-        include ../layouts/posts/posts.pug
-    else if userReq.role === 'admin'
-      each post in posts
-        include ../layouts/posts/posts.pug
-          div(class="d-flex pt-3")
-            include ../layouts/posts/updatePostButton.pug
-            include ../layouts/posts/deletePostButton.pug
+    br
+    - const href = `location.href='/view/users/${userId}/posts/new-post'`
+    if posts.length === 0 && userReq.role == 'admin'
+      p(id="description" class="text-center py-5") The are not posts yet
+      include ../layouts/posts/newPostButton.pug
+      +button(href)
+    else if posts.length === 0 && userReq.role == 'user'
+      p(id="description" class="text-center py-5") The are not posts yet
+    else
+      if userReq.role === 'user'
+        each post in posts
+          include ../layouts/posts/posts.pug
+      else if userReq.role === 'admin'
+        each post in posts
+          include ../layouts/posts/posts.pug
+            div(class="d-flex pt-3")
+              include ../layouts/posts/updatePostButton.pug
+              include ../layouts/posts/deletePostButton.pug
+        include ../layouts/posts/newPostButton.pug
+        +button(href)

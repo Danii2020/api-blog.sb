@@ -1,10 +1,10 @@
 
 import express  from "express";
-import UsersController from '../controllers/usersController'
-import { checkRoles } from "../middlewares/authHandler";
+import UsersController from './../../controllers/views/usersController';
+import { checkRoles } from "../../middlewares/authHandler";
 import passport from "passport";
-import PostsController from "../controllers/postsController";
-import ProfileController from "../controllers/profileController";
+import PostsController from "../../controllers/views/postsController";
+import ProfileController from "../../controllers/views/profileController";
 const usersRouter = express.Router()
 
 usersRouter.get('/', passport.authenticate('jwt', {session: false}),
@@ -25,6 +25,12 @@ checkRoles("admin", "user"), UsersController.getOneUser);
 
 usersRouter.get('/:id/posts', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.getPostsByUser);
+
+usersRouter.get('/:id/posts/new-post', passport.authenticate('jwt', {session: false}),
+checkRoles("admin"), PostsController.getNewPost);
+
+usersRouter.post('/:id/posts/', passport.authenticate('jwt', {session: false}),
+checkRoles("admin"), PostsController.postPostByUser);
 
 usersRouter.get('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), ProfileController.getNewProfile);

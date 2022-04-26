@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const usersController_1 = __importDefault(require("./../../controllers/API/usersController"));
+const authHandler_1 = require("../../middlewares/authHandler");
+const passport_1 = __importDefault(require("passport"));
+const postsController_1 = __importDefault(require("../../controllers/API/postsController"));
+const usersRouterApi = express_1.default.Router();
+usersRouterApi.get('/', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getAllUsers);
+usersRouterApi.get('/sortbyalpha', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getSortedUsers);
+usersRouterApi.get('/abcnames', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCNames);
+usersRouterApi.get('/countabc', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCCount);
+usersRouterApi.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getOneUser);
+usersRouterApi.get('/:id/posts', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.getPostsByUser);
+usersRouterApi.post('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
+usersRouterApi.get('/delete/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.deleteUser);
+exports.default = usersRouterApi;
