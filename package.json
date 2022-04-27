@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon dist/src/server.js",
+    "start": "ts-node src/server.ts",
     "test:user": "mocha --reporter spec dist/test/users.spec.js",
     "test:auth": "mocha --reporter spec dist/test/auth.spec.js",
     "test:post": "mocha --reporter spec dist/test/posts.spec.js",

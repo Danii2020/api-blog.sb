@@ -2,6 +2,7 @@ import chai from 'chai';
 import { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import { config } from '../config/config';
+import {app} from './../src/server';
 
 chai.use(chaiHttp)
 
@@ -60,7 +61,7 @@ const userTestToken = <string> config.userTestToken;
 describe("GET /posts/id with a 404 not found status code", () => {
   context("when a GET request is made to /posts route", () => {
     it("returns a 404 HTTP status code", (done) => {
-      chai.request(URL)
+      chai.request(app)
         .get(postsRoute + '/50')
         .set('Cookie', `jwt=${adminTestToken}`)
         .then((res) => {
@@ -93,23 +94,23 @@ describe("GET /posts/id with a 404 not found status code", () => {
 //   });
 // });
 
-describe("POST /posts with a a 401 unauthorized status code", () => {
-  context("when a POST request is made to /posts/id route", () => {
-    it("returns a 401 HTTP status code", (done) => {
-      const newPost = {
-        title:"Vanessa's post",
-        content:"This is my new post"
-      }
-      chai.request(URL)
-        .post(postsRoute)
-        .send(newPost)
-        .then((res) => {
-          expect(res).to.have.status(401);
-        done()
-        }).catch((err) => done(err));
-    });
-  });
-});
+// describe("POST /posts with a a 401 unauthorized status code", () => {
+//   context("when a POST request is made to /posts/id route", () => {
+//     it("returns a 401 HTTP status code", (done) => {
+//       const newPost = {
+//         title:"Vanessa's post",
+//         content:"This is my new post"
+//       }
+//       chai.request(URL)
+//         .post(postsRoute)
+//         .send(newPost)
+//         .then((res) => {
+//           expect(res).to.have.status(401);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
 
 // describe("PATCH /posts/update/id with a a 201 status code", () => {
 //   context("when a PATCH request is made to /posts/id route", () => {
@@ -132,40 +133,40 @@ describe("POST /posts with a a 401 unauthorized status code", () => {
 //   });
 // });
 
-describe("PATCH /posts/update/id with a 401 unauthorized status code", () => {
-  context("when a PATCH request is made to /posts/update/id route", () => {
-    it("returns a 401 unauthorized HTTP status code", (done) => {
-      const updatedPost = {
-        title:"I love JavaScript"
-      }
-      chai.request(URL)
-        .patch(postsRoute + '/update/2')
-        .send(updatedPost)
-        .then((res) => {
-          expect(res).to.have.status(401);
-        done()
-        }).catch((err) => done(err));
-    });
-  });
-});
+// describe("PATCH /posts/update/id with a 401 unauthorized status code", () => {
+//   context("when a PATCH request is made to /posts/update/id route", () => {
+//     it("returns a 401 unauthorized HTTP status code", (done) => {
+//       const updatedPost = {
+//         title:"I love JavaScript"
+//       }
+//       chai.request(URL)
+//         .patch(postsRoute + '/update/2')
+//         .send(updatedPost)
+//         .then((res) => {
+//           expect(res).to.have.status(401);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
 
-describe("PATCH /posts/update/id with a 404 not found status code", () => {
-  context("when a PATCH request is made to /posts/update/id route", () => {
-    it("returns a 404 HTTP status code", (done) => {
-      const updatedPost = {
-        title:"I love JavaScript"
-      }
-      chai.request(URL)
-        .patch(postsRoute + '/update/25')
-        .set('Cookie', `jwt=${userTestToken}`)
-        .send(updatedPost)
-        .then((res) => {
-          expect(res).to.have.status(404);
-        done()
-        }).catch((err) => done(err));
-    });
-  });
-});
+// describe("PATCH /posts/update/id with a 404 not found status code", () => {
+//   context("when a PATCH request is made to /posts/update/id route", () => {
+//     it("returns a 404 HTTP status code", (done) => {
+//       const updatedPost = {
+//         title:"I love JavaScript"
+//       }
+//       chai.request(URL)
+//         .patch(postsRoute + '/update/25')
+//         .set('Cookie', `jwt=${userTestToken}`)
+//         .send(updatedPost)
+//         .then((res) => {
+//           expect(res).to.have.status(404);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
 
 // describe("DELETE /posts/delete/id with a 200 OK status code", () => {
 //   context("when a DELETE request is made to /posts/id route", () => {
@@ -184,29 +185,29 @@ describe("PATCH /posts/update/id with a 404 not found status code", () => {
 //   });
 // });
 
-describe("DELETE /posts/delete/id with a 401 unauthorized status code", () => {
-  context("when a DELETE request is made to /posts/id route", () => {
-    it("returns a 401 unauthorized HTTP status code", (done) => {
-      chai.request(URL)
-        .delete(postsRoute + '/delete/7')
-        .then((res) => {
-          expect(res).to.have.status(401);
-        done()
-        }).catch((err) => done(err));
-    });
-  });
-});
+// describe("DELETE /posts/delete/id with a 401 unauthorized status code", () => {
+//   context("when a DELETE request is made to /posts/id route", () => {
+//     it("returns a 401 unauthorized HTTP status code", (done) => {
+//       chai.request(URL)
+//         .delete(postsRoute + '/delete/7')
+//         .then((res) => {
+//           expect(res).to.have.status(401);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
 
-describe("DELETE /posts/delete/id with a 404 not found status code", () => {
-  context("when a DELETE request is made to /posts/id route", () => {
-    it("returns a 404 HTTP status code", (done) => {
-      chai.request(URL)
-        .delete(postsRoute + '/delete/56')
-        .set('Cookie', `jwt=${adminTestToken}`)
-        .then((res) => {
-          expect(res).to.have.status(404);
-        done()
-        }).catch((err) => done(err));
-    });
-  });
-});
+// describe("DELETE /posts/delete/id with a 404 not found status code", () => {
+//   context("when a DELETE request is made to /posts/id route", () => {
+//     it("returns a 404 HTTP status code", (done) => {
+//       chai.request(URL)
+//         .delete(postsRoute + '/delete/56')
+//         .set('Cookie', `jwt=${adminTestToken}`)
+//         .then((res) => {
+//           expect(res).to.have.status(404);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
