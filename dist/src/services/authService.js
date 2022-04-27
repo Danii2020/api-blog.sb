@@ -32,7 +32,7 @@ class AuthService {
         if (!user) {
             throw boom_1.default.unauthorized("Your crendentials are bad.");
         }
-        const isMatch = await (0, hash_1.compareHash)(user?.password, password);
+        const isMatch = await (0, hash_1.compareHash)(user.password, password);
         if (!isMatch) {
             throw boom_1.default.unauthorized("Your crendentials are bad.");
         }

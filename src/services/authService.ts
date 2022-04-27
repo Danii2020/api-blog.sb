@@ -34,7 +34,7 @@ class AuthService implements IAuthService{
     if (!user) {
       throw boom.unauthorized("Your crendentials are bad.");
     }
-    const isMatch:boolean = await compareHash(user?.password, password);
+    const isMatch:boolean = await compareHash(user.password, password);
     if (!isMatch) {
       throw boom.unauthorized("Your crendentials are bad.");
     }
