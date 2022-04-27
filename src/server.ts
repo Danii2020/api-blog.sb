@@ -8,7 +8,6 @@ import methodOverride from 'method-override';
 
 const app = express();
 
-console.log(app.locals)
 const port = config.port;
 
 app.use(express.json());

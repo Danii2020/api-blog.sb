@@ -13,20 +13,20 @@ const URL = 'http://localhost:3000';
 const postsRoute = '/api/v1/posts';
 const adminTestToken = config_1.config.adminTestToken;
 const userTestToken = config_1.config.userTestToken;
-// describe("GET /posts with a 200 OK status code", () => {
-//   context("when a GET request is made to /posts route", () => {
-//     it("returns all posts with a 200 HTTP status code", (done) => {
-//       chai.request(URL)
-//         .get(postsRoute)
-//         .then((res) => {
-//           expect(res).to.have.status(200);
-//           expect(res.body.data).to.be.an('array');
-//           expect(res.body.data).length(5);
-//         done()
-//         }).catch((err) => done(err));
-//     });
-//   });
-// });
+describe("GET /posts with a 200 OK status code", () => {
+    context("when a GET request is made to /posts route", () => {
+        it("returns all posts with a 200 HTTP status code", (done) => {
+            chai_1.default.request(server_1.app)
+                .get(postsRoute)
+                .end((err, res) => {
+                (0, chai_2.expect)(res).to.have.status(200);
+                (0, chai_2.expect)(res.body.data).to.be.an('array');
+                (0, chai_2.expect)(res.body.data).length(3);
+                done();
+            });
+        });
+    });
+});
 // describe("GET /posts/id with a 200 OK status code", () => {
 //   context("when a GET request is made to /posts route", () => {
 //     it("returns the post whose id is the correct with a 200 HTTP status code", (done) => {
@@ -57,19 +57,19 @@ const userTestToken = config_1.config.userTestToken;
 //     });
 //   });
 // });
-describe("GET /posts/id with a 404 not found status code", () => {
-    context("when a GET request is made to /posts route", () => {
-        it("returns a 404 HTTP status code", (done) => {
-            chai_1.default.request(server_1.app)
-                .get(postsRoute + '/50')
-                .set('Cookie', `jwt=${adminTestToken}`)
-                .then((res) => {
-                (0, chai_2.expect)(res).to.have.status(404);
-                done();
-            }).catch((err) => done(err));
-        });
-    });
-});
+// describe("GET /posts/id with a 404 not found status code", () => {
+//   context("when a GET request is made to /posts route", () => {
+//     it("returns a 404 HTTP status code", (done) => {
+//       chai.request(URL)
+//         .get(postsRoute + '/50')
+//         .set('Cookie', `jwt=${adminTestToken}`)
+//         .then((res) => {
+//           expect(res).to.have.status(404);
+//         done()
+//         }).catch((err) => done(err));
+//     });
+//   });
+// });
 // describe("POST /posts with a a 200 OK status code", () => {
 //   context("when a POST request is made to /posts route", () => {
 //     it("creates a new post with a 200 HTTP status code", (done) => {

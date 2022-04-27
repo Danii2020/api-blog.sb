@@ -13,7 +13,6 @@ const postsController_1 = __importDefault(require("./controllers/views/postsCont
 const method_override_1 = __importDefault(require("method-override"));
 const app = express();
 exports.app = app;
-console.log(app.locals);
 const port = config_1.config.port;
 app.use(express.json());
 app.use(express.urlencoded());
