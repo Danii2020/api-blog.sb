@@ -32,6 +32,7 @@ class AuthController {
                 data: user,
                 token: token
             });
+            delete user.password;
         }
         catch (error) {
             next(boom_1.default.internal("Server error"));

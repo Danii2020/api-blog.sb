@@ -50,7 +50,7 @@ class PostsController {
       });
     } catch (error) {
       console.log(error);
-      next(boom.internal("Internal server error"));
+      next(boom.notFound("Post not found"));
     }
   }
 
@@ -85,13 +85,14 @@ class PostsController {
       const id:number = Number(req.params.id);
       const body = req.body;
       const updatedPost = await postService.patchPost(id, body);
+
       return res.status(201).json({
         message:"Post updated",
         data:updatedPost
       });
     } catch (error) {
-      console.log(error);
-      next(boom.internal("Internal server error"));
+      console.log(error)
+      next(boom.notFound("Post not found"));
     }
   }
 

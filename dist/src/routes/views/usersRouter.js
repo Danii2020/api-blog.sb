@@ -19,6 +19,6 @@ usersRouter.get('/:id/posts', passport_1.default.authenticate('jwt', { session: 
 usersRouter.get('/:id/posts/new-post', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), postsController_1.default.getNewPost);
 usersRouter.post('/:id/posts/', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), postsController_1.default.postPostByUser);
 usersRouter.get('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), profileController_1.default.getNewProfile);
-usersRouter.post('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
+usersRouter.patch('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
 usersRouter.get('/delete/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.deleteUser);
 exports.default = usersRouter;

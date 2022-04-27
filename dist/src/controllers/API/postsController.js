@@ -52,7 +52,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            next(boom_1.default.internal("Internal server error"));
+            next(boom_1.default.notFound("Post not found"));
         }
     }
     static async postPost(req, res, next) {
@@ -93,7 +93,7 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            next(boom_1.default.internal("Internal server error"));
+            next(boom_1.default.notFound("Post not found"));
         }
     }
     static async deletePost(req, res, next) {

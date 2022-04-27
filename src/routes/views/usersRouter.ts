@@ -35,7 +35,7 @@ checkRoles("admin"), PostsController.postPostByUser);
 usersRouter.get('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), ProfileController.getNewProfile);
 
-usersRouter.post('/update/:id', passport.authenticate('jwt', {session: false}),
+usersRouter.patch('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.patchUser);
 
 usersRouter.get('/delete/:id', passport.authenticate('jwt', {session: false}),

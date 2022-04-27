@@ -106,10 +106,11 @@ class PostsController {
         }
         catch (error) {
             console.log(error);
-            next(boom_1.default.internal("Internal server error"));
+            next(boom_1.default.notFound("Post not found"));
         }
     }
     static async deletePost(req, res, next) {
+        console.log(req);
         try {
             const id = Number(req.params.id);
             const post = await postService.deletePost(id);

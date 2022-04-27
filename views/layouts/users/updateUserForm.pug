@@ -1,0 +1,17 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      h4#myModalLabel.modal-title
+        | Update your profile
+    .modal-body
+      form(role='form' method='POST' action=`/view/users/update/${user.userId}?_method=PATCH`)
+        div.form-group
+          label(for='firstname') Firstname:
+          input#content.form-control(type='text', value=user.firstname name='firstname')
+        div.form-group
+          label(for='lastname') Lastname:
+          input#content.form-control(type='text', value=user.lastname name='lastname')
+        div.form-group
+          label(for='username') Username:
+          input#content.form-control(type='text', value=user.username name='username')
+        button.btn.btn-primary(type="submit" onclick="alert('Profile updated!')") Submit

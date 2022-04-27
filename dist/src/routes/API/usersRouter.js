@@ -15,6 +15,6 @@ usersRouterApi.get('/abcnames', passport_1.default.authenticate('jwt', { session
 usersRouterApi.get('/countabc', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getABCCount);
 usersRouterApi.get('/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.getOneUser);
 usersRouterApi.get('/:id/posts', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), postsController_1.default.getPostsByUser);
-usersRouterApi.post('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
+usersRouterApi.patch('/update/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin"), usersController_1.default.patchUser);
 usersRouterApi.get('/delete/:id', passport_1.default.authenticate('jwt', { session: false }), (0, authHandler_1.checkRoles)("admin", "user"), usersController_1.default.deleteUser);
 exports.default = usersRouterApi;

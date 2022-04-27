@@ -26,7 +26,7 @@ checkRoles("admin", "user"), UsersController.getOneUser);
 usersRouterApi.get('/:id/posts', passport.authenticate('jwt', {session: false}),
 checkRoles("admin", "user"), PostsController.getPostsByUser);
 
-usersRouterApi.post('/update/:id', passport.authenticate('jwt', {session: false}),
+usersRouterApi.patch('/update/:id', passport.authenticate('jwt', {session: false}),
 checkRoles("admin"), UsersController.patchUser);
 
 usersRouterApi.get('/delete/:id', passport.authenticate('jwt', {session: false}),

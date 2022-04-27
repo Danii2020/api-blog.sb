@@ -1,16 +1,16 @@
 import { PrismaClient, User } from '@prisma/client';
-import {IUserService, IUserChanges} from '../models/userInterface';
+import {IUserService, IUserChanges, IUser} from '../models/userInterface';
 
 const prisma = new PrismaClient();
 
 class UserService implements IUserService{
   async getAllUsers() {
-    const users = await prisma.user.findMany();
+    const users = <IUser[]> await prisma.user.findMany();
     return users
   }
 
   async getOneUser(id:number) {
-    const user = await prisma.user.findUnique({
+    const user = <IUser> await prisma.user.findUnique({
       where: {
         userId:id
       },
@@ -22,7 +22,7 @@ class UserService implements IUserService{
   }
 
   async patchUser(id:number, changes:IUserChanges) {
-    const updatedUser = await prisma.user.update({
+    const updatedUser = <IUser> await prisma.user.update({
       where : {
         userId: id
       },
@@ -32,7 +32,7 @@ class UserService implements IUserService{
   }
 
   async deleteUser(id: number) {
-    const user = await prisma.user.delete({
+    const user = <IUser> await prisma.user.delete({
       where: {
         userId: id,
       }
@@ -40,14 +40,14 @@ class UserService implements IUserService{
     return user;
   }
   async getUserByEmail(email:string) {
-    const user = await prisma.user.findUnique({
+    const user = <IUser> await prisma.user.findUnique({
       where: { email:email}
     });
     return user;
   }
 
   async getSortedUsers() {
-    const users = await prisma.user.findMany();
+    const users = <IUser[]> await prisma.user.findMany();
     const orderedUsers = users.sort((a, b) => {
       return a.firstname === b.firstname ? 0: a.firstname > b.firstname ? 1: -1;
     });
@@ -61,7 +61,7 @@ class UserService implements IUserService{
   }
 
   async findABCNames() {
-    const users = await prisma.user.findMany();
+    const users = <IUser[]> await prisma.user.findMany();
     const abcUsers = users.filter(user =>
       user.firstname[0].toLowerCase() === 'a' ||
       user.firstname[0].toLowerCase() === 'b' ||
@@ -70,16 +70,16 @@ class UserService implements IUserService{
   }
 
   private async countNames(letter:string){
-    const abcNames = await this.findABCNames();
+    const abcNames = <IUser[]> await this.findABCNames();
     const count:number = abcNames.filter(user => user.firstname[0].toLowerCase() === letter)
       .reduce((sum, user) => sum + 1,0);
     return count;
   }
 
   async countABCNames() {
-    const aCounter = await this.countNames('a');
-    const bCounter = await this.countNames('b');
-    const cCounter = await this.countNames('c');
+    const aCounter:number = await this.countNames('a');
+    const bCounter:number = await this.countNames('b');
+    const cCounter:number = await this.countNames('c');
     return {
       aNames: aCounter,
       bNames: bCounter,

@@ -18,9 +18,9 @@ const jwtConfig = {
 }
 
 class AuthService implements IAuthService{
-  async signUp(body: User)  {
-    const hash = await argon2.hash(body.password as string, {type: argon2.argon2id});
-    const newUser = await prisma.user.create({
+  async signUp(body: IUser)  {
+    const hash:string = await argon2.hash(body.password as string, {type: argon2.argon2id});
+    const newUser = <IUser> await prisma.user.create({
       data: {
         ...body,
         role:body.role || "user",
@@ -30,7 +30,7 @@ class AuthService implements IAuthService{
     return newUser;
   }
   async getUser(email:string, password:string) {
-    const user = await userService.getUserByEmail(email);
+    const user = <IUser> await userService.getUserByEmail(email);
     if (!user) {
       throw boom.unauthorized("Your crendentials are bad.");
     }

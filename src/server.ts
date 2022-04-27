@@ -3,7 +3,7 @@ import { logErrors, errorHandler, boomErrorHandler } from './middlewares/errorHa
 import { routerApi } from "./routes";
 import { config } from '../config/config';
 import cookieParser from 'cookie-parser';
-import PostsController from './controllers/postsController';
+import PostsController from './controllers/views/postsController';
 import methodOverride from 'method-override';
 
 const app = express();

@@ -104,11 +104,12 @@ class PostsController {
       return res.status(201).redirect('/view/profile/my-posts');
     } catch (error) {
       console.log(error);
-      next(boom.internal("Internal server error"));
+      next(boom.notFound("Post not found"));
     }
   }
 
   public static async deletePost(req:Request, res:Response, next:NextFunction):Promise<any> {
+    console.log(req)
     try {
       const id:number = Number(req.params.id);
       const post = await postService.deletePost(id);

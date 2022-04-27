@@ -1,9 +1,9 @@
-import {User} from '@prisma/client'
+import {IUser} from './../models/userInterface';
 
 interface IAuthService {
-  getUser(email:string, password:string):Promise<User>;
-  signToken(user:User):string;
-  signUp(body:User):Promise<User>;
+  getUser(email:string, password:string):Promise<IUser | null>;
+  signToken(user:IUser):string;
+  signUp(body:IUser):Promise<IUser>;
 }
 
 export default IAuthService;
