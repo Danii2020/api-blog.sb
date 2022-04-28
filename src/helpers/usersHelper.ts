@@ -1,7 +1,7 @@
 import { IUser } from "../models/userInterface";
 
 class UsersHelper {
-  sortUsers(users:IUser[]) {
+  private sortUsers(users:IUser[]) {
     const orderedUsers = users.sort((a, b) => {
       return a.firstname === b.firstname ? 0: a.firstname > b.firstname ? 1: -1;
     });

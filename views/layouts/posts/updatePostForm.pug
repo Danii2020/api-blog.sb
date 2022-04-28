@@ -1,15 +1,16 @@
 div(class="pt-4")
-  .modal-dialog
-    .modal-content
+  .modal-dialog(class="py-3")
+    .modal-content(class="py-3")
       .modal-header
         h4#myModalLabel.modal-title
           | Update your post
-      .modal-body
+      .modal-body(class="py-3")
         form(role='form' method='POST' action=`/view/posts/update/${post.postId}?_method=PATCH`)
-          div.form-group
-            label(for='title') Title:
+          div.form-group(class="py-2")
+            label(for='title' class="py-2") Title:
             input#content.form-control(type='text', value=post.title name='title')
-          div.form-group
-            label(for='content') Content:
-            input#content.form-control(type='text', value=post.content name='content')
-          button.btn.btn-primary(type="submit" onclick="alert('Posts updated!')") Submit
+          div.form-group(class="py-2")
+            label(for='content' class="py-2") Content:
+            textarea#content.form-control(rows="4" cols="50" name='content') #{post.content}
+          div.form-group(class="py-2")
+            button.btn.btn-primary(type="submit" onclick="alert('Posts updated!')") Submit

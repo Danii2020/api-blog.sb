@@ -1,17 +1,18 @@
-.modal-dialog
-  .modal-content
-    .modal-header
-      h4#myModalLabel.modal-title
-        | Update your profile
-    .modal-body
-      form(role='form' method='POST' action=`/view/users/update/${user.userId}?_method=PATCH`)
-        div.form-group
-          label(for='firstname') Firstname:
-          input#content.form-control(type='text', value=user.firstname name='firstname')
-        div.form-group
-          label(for='lastname') Lastname:
-          input#content.form-control(type='text', value=user.lastname name='lastname')
-        div.form-group
-          label(for='username') Username:
-          input#content.form-control(type='text', value=user.username name='username')
-        button.btn.btn-primary(type="submit" onclick="alert('Profile updated!')") Submit
+div(class="pt-4")
+  .modal-dialog(class="py-3")
+    .modal-content(class="py-3")
+      .modal-header
+        h4#myModalLabel.modal-title
+          | Update your profile
+      .modal-body(class="py-3")
+        form(role='form' method='POST' action=`/view/users/update/${user.userId}?_method=PATCH`)
+          div.form-group(class="py-2")
+            label(for='firstname' class="py-2") Firstname:
+            input#content.form-control(type='text', value=user.firstname name='firstname')
+          div.form-group(class="py-2")
+            label(for='lastname' class="py-2") Lastname:
+            input#content.form-control(type='text', value=user.lastname name='lastname')
+          div.form-group(class="py-2")
+            label(for='username' class="py-2") Username:
+            input#content.form-control(type='text', value=user.username name='username')
+          button.btn.btn-primary(type="submit" onclick="alert('Profile updated!')") Submit
