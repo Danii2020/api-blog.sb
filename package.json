@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "nodemon dist/src/server.js",
     "start": "ts-node src/server.ts",
-    "test:users": "mocha --reporter spec dist/test/users.spec.js",
-    "test:auth": "mocha --reporter spec dist/test/auth.spec.js",
-    "test:posts": "mocha --reporter spec dist/test/posts.spec.js",
-    "test:profile": "mocha --reporter spec dist/test/profile.spec.js"
+    "test:users": "mocha --reporter spec dist/test/users.spec.js"
   },
   "repository": {
     "type": "git",
