@@ -10,6 +10,7 @@ on:
     branches: [ main ]
 env:
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  DATABASE_URL: postgresql://danii:admin123@localhost:5432/my_blog?schema=public
 
 
 jobs:
