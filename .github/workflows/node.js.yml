@@ -10,8 +10,6 @@ on:
     branches: [ main ]
 env:
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
-  DATABASE_URL: postgresql://danii:admin123@localhost:5432/my_blog?schema=public
-
 
 jobs:
   build:
@@ -26,7 +24,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
-    - run: docker-compose up -d
-    - run: npm run start
     - run: npm run test:users
