@@ -1,6 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@prisma/client");
+const usersHelper_1 = __importDefault(require("../helpers/usersHelper"));
+const usersHelper = new usersHelper_1.default();
 const prisma = new client_1.PrismaClient();
 class UserService {
     async getAllUsers() {
@@ -43,39 +48,18 @@ class UserService {
     }
     async getSortedUsers() {
         const users = await prisma.user.findMany();
-        const orderedUsers = users.sort((a, b) => {
-            return a.firstname === b.firstname ? 0 : a.firstname > b.firstname ? 1 : -1;
-        });
-        const upperUsers = orderedUsers.map(user => ({
-            firstname: user.firstname,
-            lastname: user.lastname.toUpperCase(),
-            username: user.username,
-            email: user.email
-        }));
-        return upperUsers;
+        const sortedUsers = usersHelper.sortUsersUpperLastname(users);
+        return sortedUsers;
     }
-    async findABCNames() {
+    async getABCNames() {
         const users = await prisma.user.findMany();
-        const abcUsers = users.filter(user => user.firstname[0].toLowerCase() === 'a' ||
-            user.firstname[0].toLowerCase() === 'b' ||
-            user.firstname[0].toLowerCase() === 'c');
-        return abcUsers;
+        const abcNames = usersHelper.findABCNames(users);
+        return abcNames;
     }
-    async countNames(letter) {
-        const abcNames = await this.findABCNames();
-        const count = abcNames.filter(user => user.firstname[0].toLowerCase() === letter)
-            .reduce((sum, user) => sum + 1, 0);
-        return count;
-    }
-    async countABCNames() {
-        const aCounter = await this.countNames('a');
-        const bCounter = await this.countNames('b');
-        const cCounter = await this.countNames('c');
-        return {
-            aNames: aCounter,
-            bNames: bCounter,
-            cNames: cCounter
-        };
+    async getCountABCNames() {
+        const abcNames = await this.getABCNames();
+        const abcNamesCounter = usersHelper.countABCNames(abcNames);
+        return abcNamesCounter;
     }
 }
 exports.default = UserService;

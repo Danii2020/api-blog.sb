@@ -1,6 +1,8 @@
 import { PrismaClient, User } from '@prisma/client';
 import {IUserService, IUserChanges, IUser} from '../models/userInterface';
+import UsersHelper from '../helpers/usersHelper';
 
+const usersHelper  = new UsersHelper();
 const prisma = new PrismaClient();
 
 class UserService implements IUserService{
@@ -48,43 +50,20 @@ class UserService implements IUserService{
 
   async getSortedUsers() {
     const users = <IUser[]> await prisma.user.findMany();
-    const orderedUsers = users.sort((a, b) => {
-      return a.firstname === b.firstname ? 0: a.firstname > b.firstname ? 1: -1;
-    });
-    const upperUsers = orderedUsers.map(user => ({
-      firstname:user.firstname,
-      lastname:user.lastname.toUpperCase(),
-      username:user.username,
-      email:user.email
-    }));
-    return upperUsers;
+    const sortedUsers = usersHelper.sortUsersUpperLastname(users);
+    return sortedUsers;
   }
 
-  async findABCNames() {
+  async getABCNames() {
     const users = <IUser[]> await prisma.user.findMany();
-    const abcUsers = users.filter(user =>
-      user.firstname[0].toLowerCase() === 'a' ||
-      user.firstname[0].toLowerCase() === 'b' ||
-      user.firstname[0].toLowerCase() === 'c');
-    return abcUsers;
+    const abcNames = usersHelper.findABCNames(users);
+    return abcNames;
   }
 
-  private async countNames(letter:string){
-    const abcNames = <IUser[]> await this.findABCNames();
-    const count:number = abcNames.filter(user => user.firstname[0].toLowerCase() === letter)
-      .reduce((sum, user) => sum + 1,0);
-    return count;
-  }
-
-  async countABCNames() {
-    const aCounter:number = await this.countNames('a');
-    const bCounter:number = await this.countNames('b');
-    const cCounter:number = await this.countNames('c');
-    return {
-      aNames: aCounter,
-      bNames: bCounter,
-      cNames: cCounter
-    }
+  async getCountABCNames() {
+    const abcNames = <IUser[]> await this.getABCNames();
+    const abcNamesCounter = usersHelper.countABCNames(abcNames);
+    return abcNamesCounter;
   }
 }
 

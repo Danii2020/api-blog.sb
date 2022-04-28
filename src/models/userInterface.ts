@@ -4,8 +4,8 @@ interface IUserService {
   patchUser(id:number, changes:IUserChanges):Promise<IUser>;
   deleteUser(id:number):Promise<IUser>;
   getUserByEmail(email:string):Promise<IUser | null>;
-  findABCNames():Promise<IUser[]  | null>;
-  countABCNames():Promise<object>;
+  getABCNames():Promise<IUser[]  | null>;
+  getCountABCNames():Promise<object>;
   getSortedUsers():Promise<IUserSorted[]>;
 }
 

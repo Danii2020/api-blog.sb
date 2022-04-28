@@ -90,7 +90,7 @@ class UsersController {
     }
     static async getABCNames(req, res, next) {
         try {
-            const abcNames = await userService.findABCNames();
+            const abcNames = await userService.getABCNames();
             if (!abcNames) {
                 next(boom_1.default.notFound("Users not found"));
             }
@@ -105,7 +105,7 @@ class UsersController {
     }
     static async getABCCount(req, res, next) {
         try {
-            const abcCount = await userService.countABCNames();
+            const abcCount = await userService.getCountABCNames();
             if (!abcCount) {
                 next(boom_1.default.notFound("Users not found"));
             }
