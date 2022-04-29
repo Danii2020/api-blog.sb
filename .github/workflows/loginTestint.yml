@@ -4,6 +4,7 @@ on: [push]
 
 env:
   JWT_SECRET: ${{secrets.JWT_SECRET}}
+  DATABASE_URL: ${{secrets.DATABASE_URL}}
 
 jobs:
   cypress-run:
@@ -19,5 +20,5 @@ jobs:
         with:
           browser: chrome
           install: npm install
-          docker: docker-compose up -d
+          run: docker-compose up -d
           start: npm run start
