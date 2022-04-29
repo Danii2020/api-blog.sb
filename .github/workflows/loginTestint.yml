@@ -3,7 +3,7 @@ name: Cypress Tests
 on: [push]
 
 env:
-  JWT_SECRETS: ${{secrets.JWT_SECRET}}
+  JWT_SECRET: ${{secrets.JWT_SECRET}}
 
 jobs:
   cypress-run:
@@ -19,4 +19,5 @@ jobs:
         with:
           browser: chrome
           install: npm install
+          docker: docker-compose up -d
           start: npm run start
