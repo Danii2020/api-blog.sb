@@ -14,6 +14,8 @@ describe("Test login view", () => {
                 .click();
             cy.url()
                 .should("include", "/profile");
+            cy.get("h1#username-title")
+                .should("contain", "Daniel Mauricio's profile");
         });
     });
 });
