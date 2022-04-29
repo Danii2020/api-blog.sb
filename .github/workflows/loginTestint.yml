@@ -7,10 +7,12 @@ env:
   DATABASE_URL: ${{secrets.DATABASE_URL}}
 
 jobs:
+  build:
+    - run: docker-compuse up -d
   cypress-run:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
-  - run: docker-compuse up -d
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
