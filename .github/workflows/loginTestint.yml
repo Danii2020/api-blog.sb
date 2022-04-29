@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - run: docker-compose up -d
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
@@ -21,5 +23,4 @@ jobs:
         with:
           browser: chrome
           install: npm install
-          build: docker-compose up -d
           start: npm run start
