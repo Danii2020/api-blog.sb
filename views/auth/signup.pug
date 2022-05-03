@@ -15,18 +15,18 @@ html(leng="en")
             form(role='form' method='POST' action='/view/auth/signup')
               div.form-group(class="py-2")
                 label(for='firstname' class="py-2") Firstname:
-                input#firstname.form-control(id="firstname" type='text', placeholder='firstname' name='firstname' pattern="[A-Z-a-z]{3,}" title="Your normal name" required)
+                input#firstname.form-control(type='text', placeholder='firstname' name='firstname' pattern="[A-Z-a-z]{3,}" title="Your normal name" required)
               div.form-group(class="py-2")
                 label(for='lastname' class="py-2") Lastname:
-                input#lastname.form-control(id="lastname" type='text', placeholder='lastname' name='lastname' pattern="[A-Z-a-z]{3,}" title="Your normal name" required)
+                input#lastname.form-control(type='text', placeholder='lastname' name='lastname' pattern="[A-Z-a-z]{3,}" title="Your normal name" required)
               div.form-group(class="py-2")
                 label(for='username' class="py-2") Username:
-                input#username.form-control(id="username" type='text', placeholder='username' name='username' required)
+                input#username.form-control(type='text', placeholder='username' name='username' required)
               div.form-group(class="py-2")
                 label(for='email' class="py-2") Email:
-                input#email.form-control(tid="email" ype='email', placeholder='example@example.com' name='email' required)
+                input#email.form-control(type='email', placeholder='example@example.com' name='email' required)
               div.form-group(class="py-2")
                 label(for='password' class="py-2") Password:
-                input#password.form-control(id="password" type='password', placeholder='password' name='password' minlength="6" title="Six characters minimum" required)
+                input#password.form-control(type='password', placeholder='password' name='password' minlength="6" title="Six characters minimum" required)
               div.form-group(class="py-2")
                 button.btn.btn-primary(id="signup-button" type="submit") Submit
