@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        - name: Start containers
-          run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
