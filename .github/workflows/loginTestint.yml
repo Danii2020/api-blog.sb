@@ -7,9 +7,8 @@ env:
   DATABASE_URL: ${{secrets.DATABASE_URL}}
 
 jobs:
-  cypress-run:
+  docker:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.18.3-chrome87-ff82
 
     steps:
       - name: Checkout
@@ -18,9 +17,7 @@ jobs:
         run: docker-compose -f "docker-compose.yml" up -d --build
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          browser: chrome
-          install: npm install
-          start: npm run start
+      - name: Install dependecies
+        install: npm install
+      - name: Run app
+        start: npm run start
