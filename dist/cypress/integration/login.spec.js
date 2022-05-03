@@ -2,7 +2,7 @@
 describe("Test signup view", () => {
     context("when the signup page is visited", () => {
         it("logins a user with email and password", () => {
-            cy.visit('http://localhost:3000/view/auth/login');
+            cy.visit('http://localhost:3000/view/auth/signup');
             cy.wait(10);
             cy.get("[id=firstname]")
                 .type("Daniel");
