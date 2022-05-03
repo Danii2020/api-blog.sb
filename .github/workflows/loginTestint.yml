@@ -9,7 +9,6 @@ env:
 jobs:
   docker:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,6 +17,6 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Install dependecies
-        install: npm install
+        run: npm install
       - name: Run app
-        start: npm run start
+        run: npm run start
