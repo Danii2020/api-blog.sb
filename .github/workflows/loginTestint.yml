@@ -7,13 +7,13 @@ env:
   DATABASE_URL: ${{secrets.DATABASE_URL}}
 
 jobs:
-  # docker:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Start containers
-  #       run: docker-compose -f "docker-compose.yml" up
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d
   #     # # Install NPM dependencies, cache them correctly
   #     # # and run all Cypress tests
   #     # - name: Install dependecies
@@ -24,8 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
