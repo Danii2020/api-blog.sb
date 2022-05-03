@@ -15,9 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - run:
-          command: |
-            docker-compose up -d
+      - run: docker-compose up -d
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
