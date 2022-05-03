@@ -18,8 +18,6 @@ jobs:
       # and run all Cypress tests
       - name: Install dependecies
         run: npm install
-      - name: Run app
-        run: npm run start
   cypress-run:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
@@ -34,3 +32,4 @@ jobs:
         with:
           # Specify Browser since container image is compile with Firefox
           browser: chrome
+          run: npm run start
