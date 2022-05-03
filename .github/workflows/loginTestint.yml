@@ -30,6 +30,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          # Specify Browser since container image is compile with Firefox
+          start: npm run start
           browser: chrome
-          run: npm run start
+
