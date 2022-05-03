@@ -18,7 +18,7 @@ jobs:
   # #     # # and run all Cypress tests
   # #     # - name: Install dependecies
   # #     #   run: npm install
-  cypress-run:
+  cypress-testing:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
