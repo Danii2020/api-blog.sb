@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v2
 
       - run:
-          name: Docker up
           command: docker-compose up -d
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
