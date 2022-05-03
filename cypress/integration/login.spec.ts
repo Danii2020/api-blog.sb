@@ -1,6 +1,6 @@
 describe("Test signup view", () => {
   context("when the signup page is visited", () => {
-    it("logins a user with email and password", () => {
+    it("signups a user with email and password", () => {
       cy.visit('http://localhost:3000/view/auth/signup');
       cy.wait(10);
 
@@ -55,7 +55,7 @@ describe("Test login view", () => {
         .should("include", "/profile")
 
       cy.get("h1#username-title")
-        .should("contain", "Daniel Mauricio's profile");
+        .should("contain", "Daniel's profile");
     });
   });
 });
